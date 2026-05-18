@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Joana Lavender - Portfolio</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <header></header> <!-- Wird von main.js geladen -->
+
+  <main>
+    <!-- Hero Section -->
+    <section class="hero">
+      <div class="hero-text">
+        <h1>Willkommen bei</h1>
+      <div class="hero-image">
+        <img src="assets/profile.png" alt="Joana Lavender">
+      </div>
+        <p></p>
+        <p>Ich erstelle kreative Lösungen: Webseiten, Automatisierungen, Texte und mehr.</p>
+        <a href="services.html" class="btn">Meine Services entdecken</a>
+      </div>
+    </section>
+
+    <!-- Kurze Vorstellung -->
+    <section class="intro">
+      <h2>Über mich</h2>
+      <p>Ich kombiniere Technik und Kreativität, um Projekte effizient, schön und individuell umzusetzen. Egal ob kleine Webseiten, Automatisierungen oder kreative Texte – ich finde die passende Lösung.</p>
+      <a href="about.html" class="btn">Mehr erfahren</a>
+    </section>
+
+    <!-- Services Preview -->
+    <section class="landing-features">
+      <h2>Meine Dienstleistungen</h2>
+      <div class="feature-cards">
+        <div class="feature-card">
+          <h3>Webseiten</h3>
+          <p>Schlichte, funktionale Webseiten, die professionell wirken.</p>
+        </div>
+        <div class="feature-card">
+          <h3>Automatisierungen</h3>
+          <p>Alltagsaufgaben vereinfachen und Abläufe effizient gestalten.</p>
+        </div>
+        <div class="feature-card">
+          <h3>Beratung und Unterstützung</h3>
+          <p>Ich helfe dir gerne bei technischen Problemen und berate dich fair und kompetent bei deinen Entscheidungen.</p>
+        </div>
+        <div class="feature-card">
+          <h3>Kreatives Schreiben</h3>
+          <p>Texte, Briefe, Geschichten – individuell und zielgerichtet.</p>
+        </div>
+      </div>
+      <a href="services.html" class="btn" style="margin-top:1.5em; display:inline-block;">Alle Services ansehen</a>
+    </section>
+
+    <!-- Call-to-Action -->
+    <section class="landing-contact-cta">
+      <h2>Hast du ein Projekt?</h2>
+      <p>Schreib mir eine Nachricht, und wir setzen deine Idee gemeinsam um!</p>
+      <a href="contact.html" class="btn">Kontakt aufnehmen</a>
+    </section>
+  </main>
+
+  <footer></footer> <!-- Wird von main.js geladen -->
+
+  <script src="js/main.js"></script>
+</body>
+</html>

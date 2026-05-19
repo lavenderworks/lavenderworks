@@ -1,160 +1,69 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-
-  <title>LavenderWorks — Kreative digitale Lösungen</title>
-
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Joana Lavender - Portfolio</title>
   <link rel="stylesheet" href="css/style.css">
 </head>
-
 <body>
-
-  <!-- Header wird extern geladen -->
-  <header></header>
+  <header></header> <!-- Wird von main.js geladen -->
 
   <main>
-
-    <!-- HERO SECTION -->
+    <!-- Hero Section -->
     <section class="hero">
-
-      <!-- Vollbreites Hero Bild -->
-      <div class="hero-background">
-        <img src="assets/profile.png" alt="LavenderWorks Hero Image">
-        <div class="hero-overlay"></div>
+      <div class="hero-text">
+        <h1>Willkommen bei</h1>
+      <div class="hero-image">
+        <img src="assets/profile.png" alt="Joana Lavender">
       </div>
-
-      <!-- Hero Content -->
-      <div class="hero-content">
-
-        <span class="hero-tag">
-          Kreative digitale Lösungen
-        </span>
-
-        <h1>
-          Moderne Webseiten,<br>
-          kreative Projekte<br>
-          & technische Unterstützung
-        </h1>
-
-        <p>
-          Ich helfe bei Webseiten, Automatisierungen,
-          kreativen Texten und technischen Lösungen —
-          schnell, modern und individuell.
-        </p>
-
-        <div class="hero-buttons">
-
-          <a
-            href="https://wa.me/4915215448631?text=Hallo%20LavenderWorks!%20Ich%20interessiere%20mich%20f%C3%BCr%20deine%20Dienstleistungen."
-            target="_blank"
-            class="btn-primary"
-          >
-            WhatsApp Kontakt
-          </a>
-
-          <a href="#services" class="btn-secondary">
-            Services ansehen
-          </a>
-
-        </div>
-
+        <p></p>
+        <p>Ich erstelle kreative Lösungen: Webseiten, Automatisierungen, Texte und mehr.</p>
+        <a href="services.html" class="btn">Meine Services entdecken</a>
       </div>
-
     </section>
 
-    <!-- SERVICES PREVIEW -->
-    <section class="services-preview" id="services">
+    <!-- Kurze Vorstellung -->
+    <section class="intro">
+      <h2>Über mich</h2>
+      <p>Ich kombiniere Technik und Kreativität, um Projekte effizient, schön und individuell umzusetzen. Egal ob kleine Webseiten, Automatisierungen oder kreative Texte – ich finde die passende Lösung.</p>
+      <a href="about.html" class="btn">Mehr erfahren</a>
+    </section>
 
-      <div class="section-header">
-        <span class="section-tag">Services</span>
-
-        <h2>
-          Digitale Unterstützung für moderne Projekte
-        </h2>
-
-        <p>
-          Flexible Hilfe für kleine Unternehmen,
-          kreative Ideen und technische Herausforderungen.
-        </p>
-      </div>
-
-      <div class="services-grid">
-
-        <div class="service-card">
-          <span class="service-icon">💻</span>
-
+    <!-- Services Preview -->
+    <section class="landing-features">
+      <h2>Meine Dienstleistungen</h2>
+      <div class="feature-cards">
+        <div class="feature-card">
           <h3>Webseiten</h3>
-
-          <p>
-            Moderne Landing Pages,
-            Portfolios und kleine Business-Websites.
-          </p>
+          <p>Schlichte, funktionale Webseiten, die professionell wirken.</p>
         </div>
-
-        <div class="service-card">
-          <span class="service-icon">⚡</span>
-
+        <div class="feature-card">
           <h3>Automatisierungen</h3>
-
-          <p>
-            Smarte kleine Lösungen,
-            die Zeit sparen und Abläufe vereinfachen.
-          </p>
+          <p>Alltagsaufgaben vereinfachen und Abläufe effizient gestalten.</p>
         </div>
-
-        <div class="service-card">
-          <span class="service-icon">✍️</span>
-
-          <h3>Kreative Texte</h3>
-
-          <p>
-            Individuelle Texte,
-            Formulierungen und kreative Inhalte.
-          </p>
+        <div class="feature-card">
+          <h3>Beratung und Unterstützung</h3>
+          <p>Ich helfe dir gerne bei technischen Problemen und berate dich fair und kompetent bei deinen Entscheidungen.</p>
         </div>
-
+        <div class="feature-card">
+          <h3>Kreatives Schreiben</h3>
+          <p>Texte, Briefe, Geschichten – individuell und zielgerichtet.</p>
+        </div>
       </div>
-
+      <a href="services.html" class="btn" style="margin-top:1.5em; display:inline-block;">Alle Services ansehen</a>
     </section>
 
-    <!-- CTA SECTION -->
-    <section class="cta-section">
-
-      <div class="cta-box">
-
-        <span class="section-tag">
-          Kontakt
-        </span>
-
-        <h2>
-          Lass uns dein Projekt umsetzen
-        </h2>
-
-        <p>
-          Schreib mir direkt auf WhatsApp
-          und erzähl mir von deiner Idee.
-        </p>
-
-        <a
-          href="https://wa.me/4915215448631?text=Hallo%20LavenderWorks!%20Ich%20interessiere%20mich%20f%C3%BCr%20deine%20Dienstleistungen."
-          target="_blank"
-          class="cta-button"
-        >
-          Jetzt Kontakt aufnehmen
-        </a>
-
-      </div>
-
+    <!-- Call-to-Action -->
+    <section class="landing-contact-cta">
+      <h2>Hast du ein Projekt?</h2>
+      <p>Schreib mir eine Nachricht, und wir setzen deine Idee gemeinsam um!</p>
+      <a href="contact.html" class="btn">Kontakt aufnehmen</a>
     </section>
-
   </main>
 
-  <!-- Footer wird extern geladen -->
-  <footer></footer>
+  <footer></footer> <!-- Wird von main.js geladen -->
 
   <script src="js/main.js"></script>
-
 </body>
 </html>

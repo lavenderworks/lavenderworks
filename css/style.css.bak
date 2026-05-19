@@ -1,97 +1,264 @@
-/* Reset */
+/* ============================= */
+/* Reset & Basis                */
+/* ============================= */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: Arial, sans-serif;
+  font-family: 'Arial', sans-serif;
 }
 
-/* Navigation */
-nav {
-  background-color: #2c3e50;
-  padding: 1em;
-}
-nav ul {
-  list-style: none;
-  display: flex;
-  gap: 2em;
-}
-nav a {
-  text-decoration: none;
-  color: white;
-  font-weight: bold;
-}
-nav a.active {
-  color: #f39c12;
-}
-
-/* Footer */
-footer {
-  background-color: #2c3e50;
-  color: white;
-  text-align: center;
-  padding: 1em;
-  position: relative;
-  bottom: 0;
-  width: 100%;
-}
-
-/* Allgemeines Layout */
 body {
+  line-height: 1.6;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
+  color: #2d3436;
+  background-color: #f8f9fa;
 }
 
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+ul {
+  list-style: none;
+}
+
+/* ============================= */
+/* Header & Navigation          */
+/* ============================= */
+nav {
+  background-color: #2c3e50;
+  padding: 1em 2em;
+}
+
+nav ul {
+  display: flex;
+  gap: 2em;
+  justify-content: center;
+}
+
+nav a {
+  color: white;
+  font-weight: bold;
+  transition: color 0.3s;
+}
+
+nav a:hover,
+nav a.active {
+  color: #fd79a8;
+}
+
+/* ============================= */
+/* Hero Section                 */
+/* ============================= */
+.hero {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  padding: 4em 2em;
+  background: linear-gradient(135deg, #6c5ce7, #a29bfe);
+  color: white;
+  text-align: center;
+}
+
+.hero-text {
+  flex: 1 1 300px;
+  margin-bottom: 2em;
+}
+
+.hero-text h1 {
+  font-size: 2.5em;
+  margin-bottom: 0.5em;
+}
+
+.hero-text p {
+  font-size: 1.2em;
+  margin-bottom: 1.5em;
+}
+
+.hero .btn {
+  padding: 0.75em 1.5em;
+  background-color: #fd79a8;
+  color: white;
+  font-weight: bold;
+  border-radius: 5px;
+  transition: background-color 0.3s, transform 0.2s;
+}
+
+.hero .btn:hover {
+  background-color: #e84393;
+  transform: translateY(-3px);
+}
+
+.hero-image {
+  flex: 1 1 500px;
+  text-align: center;
+}
+
+.hero-image img {
+  max-width: 500px;
+  border-radius: 50%;
+  box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+  transition: transform 0.3s;
+}
+
+.hero-image img:hover {
+  transform: scale(1.05);
+}
+
+/* ============================= */
+/* Sections & Containers        */
+/* ============================= */
 main {
   flex: 1;
   padding: 2em;
 }
-/* Services Seite */
-.services-container {
+
+/* Features / Services Cards */
+.feature-cards {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
   gap: 2em;
   margin-top: 2em;
 }
 
+.feature-card,
 .service-card {
-  background-color: #ecf0f1;
-  padding: 1.5em;
+  background-color: #ffffff;
+  padding: 2em;
   border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.05);
   transition: transform 0.2s, box-shadow 0.2s;
 }
 
+.feature-card:hover,
 .service-card:hover {
   transform: translateY(-5px);
-  box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+  box-shadow: 0 8px 16px rgba(0,0,0,0.15);
 }
 
+.feature-card h3,
 .service-card h2 {
   margin-bottom: 0.5em;
-  color: #2c3e50;
+  color: #2d3436;
 }
 
+.feature-card p,
 .service-card p {
-  color: #34495e;
-  line-height: 1.4;
+  color: #636e72;
 }
-/* Kontaktformular */
+
+/* Intro / About Preview */
+.intro {
+  text-align: center;
+  margin: 4em 0;
+}
+
+.intro h2 {
+  font-size: 2em;
+  margin-bottom: 0.5em;
+}
+
+.intro p {
+  margin-bottom: 1em;
+  color: #2d3436;
+}
+
+/* Call-to-Action Section */
+.landing-contact-cta {
+  background-color: #ffeaa7;
+  text-align: center;
+  padding: 3em 2em;
+  margin-top: 2em;
+  border-radius: 10px;
+}
+
+.landing-contact-cta h2 {
+  margin-bottom: 0.5em;
+}
+
+.landing-contact-cta p {
+  margin-bottom: 1em;
+}
+
+.landing-contact-cta .btn {
+  background-color: #fd79a8;
+}
+
+.landing-contact-cta .btn:hover {
+  background-color: #e84393;
+}
+
+/* ============================= */
+/* About Me Section             */
+/* ============================= */
+.about-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2em;
+  align-items: center;
+  margin-top: 2em;
+}
+
+.about-image {
+  flex: 1 1 200px;
+  text-align: center;
+}
+
+.about-image img {
+  max-width: 200px;
+  width: 100%;
+  border-radius: 50%;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.about-text {
+  flex: 2 1 300px;
+}
+
+.about-text h2 {
+  margin-bottom: 0.5em;
+}
+
+.about-text p {
+  margin-bottom: 1em;
+  line-height: 1.5;
+  color: #2d3436;
+}
+
+.about-skills {
+  margin-top: 2em;
+}
+
+.about-skills ul {
+  list-style-type: disc;
+  padding-left: 1.5em;
+}
+
+.about-skills li {
+  margin-bottom: 0.5em;
+}
+
+/* ============================= */
+/* Kontaktformular              */
+/* ============================= */
 .contact-form-container {
   max-width: 600px;
   margin: 2em auto;
-  background-color: #ecf0f1;
+  background-color: #ffffff;
   padding: 2em;
   border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
 }
 
 .contact-form-container label {
   display: block;
   margin-top: 1em;
   font-weight: bold;
-  color: #2c3e50;
 }
 
 .contact-form-container input,
@@ -113,64 +280,58 @@ main {
   border-radius: 5px;
   cursor: pointer;
   font-size: 1em;
-  transition: background-color 0.2s;
+  transition: background-color 0.2s, transform 0.2s;
 }
 
 .contact-form-container button:hover {
   background-color: #34495e;
+  transform: translateY(-2px);
 }
 
 #formMessage {
   margin-top: 1em;
   font-weight: bold;
-  color: #27ae60; /* Grün für Erfolg */
-}
-/* Über mich Seite */
-.about-container {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 2em;
-  align-items: center;
-  margin-top: 2em;
+  color: #27ae60;
 }
 
-.about-image {
-  flex: 1 1 200px;
+/* ============================= */
+/* Footer                        */
+/* ============================= */
+footer {
+  background-color: #2c3e50;
+  color: white;
   text-align: center;
-}
-
-.about-image img {
-  max-width: 200px;
+  padding: 1em 2em;
   width: 100%;
-  border-radius: 50%;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
 }
 
-.about-text {
-  flex: 2 1 300px;
+/* ============================= */
+/* Buttons allgemein             */
+/* ============================= */
+.btn {
+  display: inline-block;
+  padding: 0.75em 1.5em;
+  background-color: #2c3e50;
+  color: white;
+  font-weight: bold;
+  border-radius: 5px;
+  transition: background-color 0.3s, transform 0.2s;
 }
 
-.about-text h2 {
-  margin-bottom: 0.5em;
-  color: #2c3e50;
+.btn:hover {
+  background-color: #34495e;
+  transform: translateY(-2px);
 }
 
-.about-text p {
-  margin-bottom: 1em;
-  line-height: 1.5;
-  color: #34495e;
-}
+/* ============================= */
+/* Responsive Design            */
+/* ============================= */
+@media (max-width: 768px) {
+  .hero {
+    flex-direction: column;
+  }
 
-.about-skills {
-  margin-top: 2em;
-}
-
-.about-skills ul {
-  list-style-type: disc;
-  padding-left: 1.5em;
-}
-
-.about-skills li {
-  margin-bottom: 0.5em;
-  color: #2c3e50;
+  .about-container {
+    flex-direction: column;
+  }
 }

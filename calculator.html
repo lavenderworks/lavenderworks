@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Projektrechner - Portfolio</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <header></header>
+
+  <main>
+<!-- ======================================== -->
+<!-- PROJECT CALCULATOR                       -->
+<!-- ======================================== -->
+
+<section class="project-calculator">
+
+  <div class="calculator-container">
+
+    <div class="section-header">
+
+      <span class="section-tag">
+        Projektrechner
+      </span>
+
+      <h2>
+        Stelle dein Projekt zusammen
+      </h2>
+
+      <p>
+        Wähle deine gewünschten Leistungen aus
+        und erhalte sofort eine Preisübersicht.
+      </p>
+
+    </div>
+
+    <!-- FORM -->
+    <form id="projectForm">
+
+      <!-- WEBSITE TYPE -->
+      <div class="form-group">
+
+        <label for="websiteType">
+          Website-Typ
+        </label>
+
+        <select id="websiteType">
+          
+          <option value="20">
+            Individuell — 20€ + Extras
+          </option>
+
+          <option value="49">
+            One Page Website — 49€
+          </option>
+
+          <option value="60">
+            Portfolio Website — 60€
+          </option>
+
+          <option value="79">
+            Business Website — 79€
+          </option>
+
+          <option value="70">
+            Landing Page — 70€
+          </option>
+
+        </select>
+
+      </div>
+
+      <!-- EXTRA PAGES -->
+      <div class="form-group">
+
+        <label for="extraPages">
+          Zusätzliche Unterseiten
+        </label>
+
+        <input
+          type="number"
+          id="extraPages"
+          min="0"
+          value="0"
+        >
+
+        <small>
+          +15€ pro Seite
+        </small>
+
+      </div>
+<br>
+      <!-- DOMAIN -->
+      <div class="form-group">
+
+        <label>
+          Domain
+        </label>
+
+        <div class="checkbox-group">
+
+          <label>
+            <input
+              type="radio"
+              name="domain"
+              value="0"
+              checked
+            >
+            Keine
+          </label>
+<br>
+          <label>
+           <input
+              type="radio"
+              name="domain"
+              value="10"
+            >
+            GitHub Subdomain (+10€)
+          </label>
+<br>
+          <label>
+            <input
+              type="radio"
+              name="domain"
+              value="20"
+            >
+            Wunschdomain (+20€)
+          </label>
+<br>
+        </div>
+
+      </div>
+<br>
+      <!-- TEXTS -->
+      <div class="form-group">
+
+        <label>
+          Texte
+        </label>
+<br>
+        <div class="checkbox-group">
+
+          <label>
+            <input
+              type="radio"
+              name="texts"
+              value="0"
+              checked
+            >
+            Texte vorhanden
+          </label>
+<br>
+          <label>
+            <input
+              type="radio"
+              name="texts"
+              value="write"
+            >
+            Texte schreiben lassen
+          </label>
+<br>
+          <label>
+            <input
+              type="radio"
+              name="texts"
+              value="rewrite"
+            >
+            Texte überarbeiten
+          </label>
+<br>
+        </div>
+
+      </div>
+<br>
+      <!-- TEXT COUNT -->
+      <div class="form-group">
+
+        <label for="textCount">
+          Anzahl Texte
+        </label>
+
+        <input
+          type="number"
+          id="textCount"
+          min="0"
+          value="0"
+        >
+
+      </div>
+<br>
+      <!-- EXTRAS -->
+      <div class="form-group">
+
+        <label>
+          Extras
+        </label>
+<br>
+        <div class="checkbox-group">
+
+          <label>
+            <input type="checkbox" class="extra" value="10" data-name="Logo">
+            Logo (+10€)
+          </label>
+<br>
+          <label>
+            <input type="checkbox" class="extra" value="10" data-name="Hero Image">
+            Hero Image (+10€)
+          </label>
+<br>
+          <label>
+            <input type="checkbox" class="extra" value="5" data-name="Farbkonzept">
+            Farbkonzept (+5€)
+          </label>
+<br>
+          <label>
+            <input type="checkbox" class="extra" value="7" data-name="Animationen">
+            Animationen (+7€)
+          </label>
+<br>
+          <label>
+            <input type="checkbox" class="extra" value="7" data-name="Formular">
+            Formular (+7€)
+          </label>
+<br>
+          <label>
+            <input type="checkbox" class="extra" value="10" data-name="Interaktive Elemente">
+            Interaktive Elemente (+10€)
+          </label>
+<br>
+          <label>
+            <input type="checkbox" class="extra" value="5" data-name="WhatsApp Kontakt">
+            WhatsApp Kontakt (+5€)
+          </label>
+<br>
+          <label>
+            <input type="checkbox" class="extra" value="5" data-name="FAQ">
+            FAQ Sektion (+5€)
+          </label>
+<br>
+          <label>
+            <input type="checkbox" class="extra" value="7" data-name="Bildoptimierung">
+            Bilder optimieren (+7€)
+          </label>
+<br>
+          <label>
+            <input type="checkbox" class="extra" value="8" data-name="Impressum & Datenschutz">
+            Impressum & Datenschutz (+8€)
+          </label>
+<br>
+        </div>
+
+      </div>
+
+    </form>
+
+    <!-- RESULT -->
+    <div class="calculator-result">
+<br><br>
+      <h3>
+        Geschätzter Preis
+      </h3>
+<br>
+      <div class="price-output" id="priceOutput">
+        49€
+      </div>
+<br>
+
+      <!-- CTA -->
+      <a
+        id="whatsappButton"
+        target="_blank"
+        class="cta-button"
+      >
+        Projekt anfragen
+      </a>
+<br>
+      <!-- SUMMARY -->
+      <div class="summary-box">
+
+        <h4>
+          Zusammenfassung
+        </h4>
+
+        <ul id="summaryList"></ul>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+<script>
+
+const form =
+  document.getElementById("projectForm");
+
+const output =
+  document.getElementById("priceOutput");
+
+const summaryList =
+  document.getElementById("summaryList");
+
+const whatsappButton =
+  document.getElementById("whatsappButton");
+
+function calculateProject() {
+
+  let total = 0;
+
+  let summary = [];
+
+  // WEBSITE TYPE
+  const websiteSelect =
+    document.getElementById("websiteType");
+
+  const websitePrice =
+    parseFloat(websiteSelect.value);
+
+  const websiteName =
+    websiteSelect.options[
+      websiteSelect.selectedIndex
+    ].text;
+
+  total += websitePrice;
+
+  summary.push(websiteName);
+
+  // EXTRA PAGES
+  const extraPages =
+    parseInt(
+      document.getElementById("extraPages").value
+    ) || 0;
+
+  if(extraPages > 0) {
+
+    const pagePrice = extraPages * 15;
+
+    total += pagePrice;
+
+    summary.push(
+      `${extraPages} zusätzliche Seiten (+${pagePrice}€)`
+    );
+  }
+
+  // DOMAIN
+  const domain =
+    document.querySelector(
+      'input[name="domain"]:checked'
+    );
+
+  const domainPrice =
+    parseFloat(domain.value);
+
+  total += domainPrice;
+
+  if(domainPrice > 0) {
+
+    summary.push(
+      domain.parentElement.innerText.trim()
+    );
+  }
+
+  // TEXTS
+  const texts =
+    document.querySelector(
+      'input[name="texts"]:checked'
+    ).value;
+
+  const textCount =
+    parseInt(
+      document.getElementById("textCount").value
+    ) || 0;
+
+  if(texts === "write") {
+
+    const textPrice =
+      5 + (textCount * 1.5);
+
+    total += textPrice;
+
+    summary.push(
+      `Texte schreiben (${textCount}) (+${textPrice.toFixed(2)}€)`
+    );
+  }
+
+  if(texts === "rewrite") {
+
+    const rewritePrice =
+      textCount * 1.5;
+
+    total += rewritePrice;
+
+    summary.push(
+      `Texte überarbeiten (${textCount}) (+${rewritePrice.toFixed(2)}€)`
+    );
+  }
+
+  // EXTRAS
+  document.querySelectorAll(".extra")
+    .forEach(extra => {
+
+      if(extra.checked) {
+
+        const price =
+          parseFloat(extra.value);
+
+        total += price;
+
+        summary.push(
+          `${extra.dataset.name} (+${price}€)`
+        );
+      }
+    });
+
+  // TOTAL
+  output.textContent =
+    total.toFixed(2) + "€";
+
+  // SUMMARY UI
+  summaryList.innerHTML = "";
+
+  summary.forEach(item => {
+
+    const li =
+      document.createElement("li");
+
+    li.textContent = item;
+
+    summaryList.appendChild(li);
+  });
+
+  // WHATSAPP MESSAGE
+  const message =
+`Hallo LavenderWorks!
+
+Ich interessiere mich für folgendes Projekt:
+
+${summary.join("\n")}
+
+Geschätzter Preis:
+${total.toFixed(2)}€
+`;
+
+  whatsappButton.href =
+    "https://wa.me/4915215448631?text=" +
+    encodeURIComponent(message);
+}
+
+// EVENTS
+form.addEventListener(
+  "input",
+  calculateProject
+);
+
+// INITIAL
+calculateProject();
+
+</script>
+  </main>
+
+  <footer></footer>
+
+  <script src="js/main.js"></script>
+</body>
+</html>

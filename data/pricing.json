@@ -1,0 +1,207 @@
+{
+  "presets": {
+    "starterWebsite": {
+      "label": "Starter Website",
+      "sections": [
+        "website",
+        "customDescription",
+        "extras"
+      ]
+    },
+
+    "businessWebsite": {
+      "label": "Business Website",
+      "sections": [
+        "website",
+        "texts",
+        "customDescription",
+        "extras"
+      ]
+    },
+
+    "creativeWriting": {
+      "label": "Kreative Texte",
+      "sections": [
+        "customDescription",
+        "writing"
+      ]
+    },
+
+    "techSupport": {
+      "label": "Techsupport",
+      "sections": [
+        "customDescription",
+        "techsupport"
+      ]
+    },
+
+    "customProject": {
+      "label": "Individuelles Projekt",
+      "sections": [
+        "website",
+        "texts",
+        "writing",
+        "techsupport",
+        "customDescription",
+        "extras"
+
+      ]
+    }
+  },
+
+  "website": {
+
+    "types": [
+      {
+        "label": "",
+        "price": 0
+      },
+
+      {
+        "label": "One Page Website",
+        "price": 49
+      },
+
+      {
+        "label": "Portfolio Website",
+        "price": 60
+      },
+
+      {
+        "label": "Business Website",
+        "price": 79
+      },
+
+      {
+        "label": "Landing Page",
+        "price": 70
+      }
+    ],
+
+    "extraPage": 15,
+
+    "domain": [
+      {
+        "label": "Keine",
+        "price": 0
+      },
+
+      {
+        "label": "GitHub Subdomain",
+        "price": 10
+      },
+
+      {
+        "label": "Wunschdomain",
+        "price": 20
+      }
+    ]
+  },
+
+  "texts": {
+
+    "options": [
+      {
+        "id": "none",
+        "label": "Texte vorhanden",
+        "base": 0,
+        "perText": 0
+      },
+
+      {
+        "id": "write",
+        "label": "Texte schreiben",
+        "base": 5,
+        "perText": 1.5
+      },
+
+      {
+        "id": "rewrite",
+        "label": "Texte überarbeiten",
+        "base": 0,
+        "perText": 1.5
+      }
+    ]
+  },
+
+  "writing": [
+
+    {
+      "label": "",
+      "price": 0
+    },
+
+    {
+      "label": "Brief",
+      "price": 4
+    },
+
+    {
+      "label": "Amtspost",
+      "price": 6
+    },
+
+    {
+      "label": "Website Text",
+      "price": 5
+    },
+
+    {
+      "label": "Lyrik",
+      "price": 8
+    },
+
+    {
+      "label": "Bio / Vorstellung",
+      "price": 3
+    }
+  ],
+
+  "techsupport": {
+
+    "hourlyPrice": 10
+  },
+
+  "extras": [
+
+    {
+      "label": "Logo",
+      "price": 10
+    },
+
+    {
+      "label": "Animationen",
+      "price": 7
+    },
+
+    {
+      "label": "Formular",
+      "price": 7
+    },
+
+    {
+      "label": "Interaktive Elemente",
+      "price": 10
+    },
+
+    {
+      "label": "WhatsApp Kontakt",
+      "price": 5
+    },
+
+    {
+      "label": "FAQ Sektion",
+      "price": 5
+    },
+
+    {
+      "label": "Bildoptimierung",
+      "price": 7
+    },
+
+    {
+      "label": "Impressum & Datenschutz",
+      "price": 8
+    }
+  ]
+}

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kontakt - Portfolio</title>
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+  <header></header>
+
+  <main>
+    <h1>Kontakt</h1>
+    <p>Schreib mir eine Nachricht, ich melde mich so schnell wie möglich bei dir!</p>
+
+    <section class="contact-form-container">
+      <form id="contactForm">
+        <label for="name">Name</label>
+        <input type="text" id="name" name="name" placeholder="Dein Name" required>
+
+        <label for="email">E-Mail</label>
+        <input type="email" id="email" name="email" placeholder="dein@email.de" required>
+
+        <label for="message">Nachricht</label>
+        <textarea id="message" name="message" rows="5" placeholder="Deine Nachricht..." required></textarea>
+
+        <button type="submit">Absenden</button>
+      </form>
+
+      <p id="formMessage"></p>
+    </section>
+  </main>
+
+  <footer></footer>
+
+  <script src="../js/main.js"></script>
+</body>
+</html>

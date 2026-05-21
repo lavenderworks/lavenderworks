@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Services - Portfolio</title>
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+  <header></header>
+
+  <main>
+<br><br><br><br>    <h1>Meine Dienstleistungen</h1>
+<br>    <p>Hier siehst du eine Übersicht meiner Angebote. Klicke auf ein Angebot, um mehr Details zu erfahren.</p>
+
+    <section class="services-container">
+      <div class="service-card">
+        <h2>Kleine Webseiten</h2>
+        <p>Ich erstelle einfache, statische Webseiten nach deinen Vorstellungen – schnell und professionell.</p>
+      </div>
+
+      <div class="service-card">
+        <h2>Automatisierungen & Skripte</h2>
+        <p>Ich programmiere kleine Automatisierungen, um wiederkehrende Aufgaben zu vereinfachen.</p>
+      </div>
+
+      <div class="service-card">
+        <h2>Kreatives Schreiben</h2>
+        <p>Texte, Briefe oder kreative Inhalte – ich formuliere individuell und zielgerichtet.</p>
+      </div>
+
+      <div class="service-card">
+        <h2>Tech-Support</h2>
+        <p>Ich helfe bei technischen Problemen oder berate zu Softwarelösungen.</p>
+      </div>
+    </section>
+  </main>
+
+  <footer></footer>
+
+  <script src="../js/main.js"></script>
+</body>
+</html>

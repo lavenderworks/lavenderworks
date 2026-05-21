@@ -1,38 +1,406 @@
 <!DOCTYPE html>
 <html lang="de">
+
 <head>
+
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Kontakt - Portfolio</title>
-  <link rel="stylesheet" href="../css/style.css">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <title>
+    Kontakt — LavenderWorks
+  </title>
+
+  <meta
+    name="description"
+    content="Kontaktiere LavenderWorks für moderne Webseiten, kreative Texte, Automatisierungen und technische Unterstützung."
+  >
+
+  <link
+    rel="stylesheet"
+    href="../css/style.css"
+  >
+
 </head>
+
 <body>
+
   <header></header>
 
-  <main>
-    <h1>Kontakt</h1>
-    <p>Schreib mir eine Nachricht, ich melde mich so schnell wie möglich bei dir!</p>
+  <main class="contact-page">
 
-    <section class="contact-form-container">
-      <form id="contactForm">
-        <label for="name">Name</label>
-        <input type="text" id="name" name="name" placeholder="Dein Name" required>
+    <!-- HERO -->
 
-        <label for="email">E-Mail</label>
-        <input type="email" id="email" name="email" placeholder="dein@email.de" required>
+    <section class="contact-hero">
 
-        <label for="message">Nachricht</label>
-        <textarea id="message" name="message" rows="5" placeholder="Deine Nachricht..." required></textarea>
+      <div class="contact-hero-content">
 
-        <button type="submit">Absenden</button>
-      </form>
+        <span class="section-tag">
+          Kontakt
+        </span>
 
-      <p id="formMessage"></p>
+        <h1>
+          Lass uns über<br>
+          dein Projekt sprechen
+        </h1>
+
+        <p>
+          Egal ob Website,
+          kreative Idee,
+          technische Hilfe
+          oder individuelles Projekt —
+          schreib mir einfach.
+        </p>
+
+      </div>
+
     </section>
+
+    <!-- CONTACT FORM -->
+
+    <section class="contact-section">
+
+      <div class="contact-wrapper">
+
+        <!-- LEFT -->
+
+        <div class="contact-info">
+
+          <span class="section-tag">
+            LavenderWorks
+          </span>
+
+          <h2>
+            Digitale Lösungen mit Persönlichkeit
+          </h2>
+
+          <p>
+            Moderne Webseiten,
+            kreative Inhalte,
+            technische Unterstützung
+            und individuelle digitale Lösungen.
+          </p>
+
+          <div class="contact-highlights">
+
+            <div class="highlight-card">
+
+              <span>
+                ⚡
+              </span>
+
+              <div>
+
+                <h3>
+                  Schnelle Kommunikation
+                </h3>
+
+                <p>
+                  Direkter Kontakt über WhatsApp oder E-Mail.
+                </p>
+
+              </div>
+
+            </div>
+
+            <div class="highlight-card">
+
+              <span>
+                💻
+              </span>
+
+              <div>
+
+                <h3>
+                  Flexible Projekte
+                </h3>
+
+                <p>
+                  Von kleinen Websites bis zu kreativen Ideen.
+                </p>
+
+              </div>
+
+            </div>
+
+            <div class="highlight-card">
+
+              <span>
+                🎨
+              </span>
+
+              <div>
+
+                <h3>
+                  Individuelle Lösungen
+                </h3>
+
+                <p>
+                  Modern, kreativ und passend zu deinem Projekt.
+                </p>
+
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+
+        <!-- FORM -->
+
+        <div class="contact-form-box">
+
+          <form id="contactForm">
+
+            <!-- NAME -->
+
+            <div class="form-group">
+
+              <label for="name">
+                Name
+              </label>
+
+              <input
+                type="text"
+                id="name"
+                placeholder="Dein Name"
+                required
+              >
+
+            </div>
+
+            <!-- CONTACT TYPE -->
+
+            <div class="form-group">
+
+              <label for="contactType">
+                Kontaktart
+              </label>
+
+              <select id="contactType">
+
+                <option value="whatsapp">
+                  WhatsApp
+                </option>
+
+                <option value="email">
+                  E-Mail
+                </option>
+
+              </select>
+
+            </div>
+
+            <!-- EMAIL -->
+
+            <div
+              class="form-group"
+              id="emailField"
+              style="display: none;"
+            >
+
+              <label for="email">
+                E-Mail Adresse
+              </label>
+
+              <input
+                type="email"
+                id="email"
+                placeholder="deine@email.de"
+              >
+
+            </div>
+
+            <!-- SERVICE -->
+
+            <div class="form-group">
+
+              <label for="service">
+                Worum geht es?
+              </label>
+
+              <select id="service">
+
+                <option value="Webseite">
+                  Webseite / Landing Page
+                </option>
+
+                <option value="Texte">
+                  Kreative Texte
+                </option>
+
+                <option value="Automatisierung">
+                  Automatisierung / Tool
+                </option>
+
+                <option value="Branding">
+                  Design / Branding
+                </option>
+
+                <option value="Techsupport">
+                  Techsupport
+                </option>
+
+                <option value="Sonstiges">
+                  Sonstiges
+                </option>
+
+              </select>
+
+            </div>
+
+            <!-- MESSAGE -->
+
+            <div class="form-group">
+
+              <label for="message">
+                Nachricht
+              </label>
+
+              <textarea
+                id="message"
+                rows="7"
+                placeholder="Beschreibe dein Projekt oder deine Idee..."
+                required
+              ></textarea>
+
+            </div>
+
+            <!-- BUTTON -->
+
+            <button
+              type="submit"
+              class="contact-submit"
+            >
+              Anfrage senden
+            </button>
+
+          </form>
+
+        </div>
+
+      </div>
+
+    </section>
+
   </main>
 
   <footer></footer>
 
   <script src="../js/main.js"></script>
+
+  <script>
+
+    const contactType =
+      document.getElementById(
+        "contactType"
+      );
+
+    const emailField =
+      document.getElementById(
+        "emailField"
+      );
+
+    contactType.addEventListener(
+      "change",
+      () => {
+
+        if(
+          contactType.value === "email"
+        ) {
+
+          emailField.style.display =
+            "block";
+
+        } else {
+
+          emailField.style.display =
+            "none";
+        }
+      }
+    );
+
+    document
+      .getElementById("contactForm")
+      .addEventListener(
+        "submit",
+        function(event) {
+
+          event.preventDefault();
+
+          const name =
+            document.getElementById(
+              "name"
+            ).value;
+
+          const service =
+            document.getElementById(
+              "service"
+            ).value;
+
+          const message =
+            document.getElementById(
+              "message"
+            ).value;
+
+          const email =
+            document.getElementById(
+              "email"
+            ).value;
+
+          const text =
+`Hallo LavenderWorks!
+
+Name:
+${name}
+
+Service:
+${service}
+
+${email ? `E-Mail:\n${email}\n` : ""}
+
+Nachricht:
+${message}
+`;
+
+          // WHATSAPP
+
+          if(
+            contactType.value ===
+            "whatsapp"
+          ) {
+
+            window.open(
+              "https://wa.me/4915215448631?text=" +
+              encodeURIComponent(text),
+              "_blank"
+            );
+          }
+
+          // EMAIL
+
+          else {
+
+            const subject =
+              encodeURIComponent(
+                "Projektanfrage — LavenderWorks"
+              );
+
+            const body =
+              encodeURIComponent(text);
+
+            window.location.href =
+              `mailto:kontakt@lavenderworks.online?subject=${subject}&body=${body}`;
+          }
+        }
+      );
+
+  </script>
+
 </body>
+
 </html>

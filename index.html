@@ -361,16 +361,16 @@
   </main>
 
   <!-- FOOTER -->
-  <footer></footer>
+<footer>
+  <p>&copy; 2026 Joana Lavender. Alle Rechte vorbehalten.</p>
+  <ul>
+    <li><a href="impressum" class="nav-link">Impressum</a></li>
+    <li><a href="datenschutz" class="nav-link">Datenschutzhinweise</a></li>
+  </ul>
+</footer>
 
   <!-- SCRIPTS -->
   <script>
-// Footer einfügen
-fetch('components/footer.html')
-  .then(response => response.text())
-  .then(data => document.querySelector('footer').innerHTML = data)
-  .catch(err => console.error('Footer konnte nicht geladen werden:', err));
-
 // Navigation: Aktive Seite markieren
 document.addEventListener('DOMContentLoaded', () => {
   const links = document.querySelectorAll('.nav-link');
@@ -380,18 +380,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 });
-// Kontaktformular
-const contactForm = document.getElementById('contactForm');
-const formMessage = document.getElementById('formMessage');
-
-if (contactForm) {
-  contactForm.addEventListener('submit', function(e) {
-    e.preventDefault();
-    // Hier könntest du AJAX oder EmailJS einbinden
-    formMessage.textContent = "Danke! Deine Nachricht wurde abgeschickt.";
-    contactForm.reset();
-  });
-}
 
   </script>
 

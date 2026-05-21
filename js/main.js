@@ -1,11 +1,11 @@
 // Header einfügen
-fetch('components/header.html')
+fetch('../components/header.html')
   .then(response => response.text())
   .then(data => document.querySelector('header').innerHTML = data)
   .catch(err => console.error('Header konnte nicht geladen werden:', err));
 
 // Footer einfügen
-fetch('components/footer.html')
+fetch('../components/footer.html')
   .then(response => response.text())
   .then(data => document.querySelector('footer').innerHTML = data)
   .catch(err => console.error('Footer konnte nicht geladen werden:', err));
@@ -20,14 +20,35 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 });
 // Kontaktformular
-const contactForm = document.getElementById('contactForm');
-const formMessage = document.getElementById('formMessage');
+document.getElementById("contactForm").addEventListener("submit", function (e) {
+  e.preventDefault();
 
-if (contactForm) {
-  contactForm.addEventListener('submit', function(e) {
-    e.preventDefault();
-    // Hier könntest du AJAX oder EmailJS einbinden
-    formMessage.textContent = "Danke! Deine Nachricht wurde abgeschickt.";
-    contactForm.reset();
-  });
-}
+  const name = document.getElementById("name").value;
+  const email = document.getElementById("email").value;
+  const message = document.getElementById("message").value;
+
+  // Email Inhalt
+  const mailBody =
+    `Name: ${name}%0D%0A` +
+    `Email: ${email}%0D%0A%0D%0A` +
+    `Nachricht:%0D%0A${message}`;
+
+  const mailtoLink =
+    `mailto:joana.o.lavender@gmail.com?subject=Kontaktanfrage von ${name}&body=${mailBody}`;
+
+  // WhatsApp Inhalt
+  const whatsappText = encodeURIComponent(
+    `Hallo Joana,\n\nName: ${name}\nEmail: ${email}\n\nNachricht:\n${message}`
+  );
+
+  const whatsappLink =
+    `https://wa.me/4915215448631?text=${whatsappText}`;
+
+  // Öffnen
+  window.open(mailtoLink, "_blank");
+  window.open(whatsappLink, "_blank");
+
+  // Feedback im Formular
+  document.getElementById("formMessage").textContent =
+    "Danke! Email & WhatsApp wurden vorbereitet.";
+});

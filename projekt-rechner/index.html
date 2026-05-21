@@ -13,7 +13,7 @@
     LavenderWorks Projekt Gestalter
   </title>
 
-  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="../css/style.css">
 
 </head>
 <header></header>
@@ -246,7 +246,7 @@
     </section>
 
   </main>
-<script src="js/main.js"></script>
+<script src="../js/main.js"></script>
 
 <script>
 let pricingData;
@@ -255,7 +255,7 @@ let pricingData;
 async function loadPricing() {
 
   const response =
-    await fetch("data/pricing.json");
+    await fetch("../data/pricing.json");
 
   pricingData =
     await response.json();

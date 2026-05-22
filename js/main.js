@@ -52,3 +52,25 @@ document.getElementById("contactForm").addEventListener("submit", function (e) {
   document.getElementById("formMessage").textContent =
     "Danke! Email & WhatsApp wurden vorbereitet.";
 });
+
+const cookieBanner =
+  document.getElementById("cookieBanner");
+
+const acceptButton =
+  document.getElementById("acceptCookies");
+
+if(
+  !localStorage.getItem("cookiesAccepted")
+) {
+  cookieBanner.style.display = "flex";
+}
+
+acceptButton.addEventListener("click", () => {
+
+  localStorage.setItem(
+    "cookiesAccepted",
+    "true"
+  );
+
+  cookieBanner.style.display = "none";
+});

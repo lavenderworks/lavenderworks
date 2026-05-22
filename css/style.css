@@ -3311,3 +3311,366 @@ textarea {
     line-height: 1;
   }
 }
+/* ===================================== */
+/* WHY PAGE                              */
+/* ===================================== */
+
+.why-page {
+
+  background:
+    linear-gradient(
+      180deg,
+      #09090f 0%,
+      #101018 100%
+    );
+
+  color: #f5f5f7;
+}
+
+/* HERO */
+
+.why-hero {
+
+  position: relative;
+
+  min-height: 100vh;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  overflow: hidden;
+
+  padding: 8rem 2rem;
+}
+
+.why-hero-background {
+
+  position: absolute;
+
+  inset: 0;
+}
+
+.why-hero-background img {
+
+  width: 100%;
+  height: 100%;
+
+  object-fit: cover;
+
+  opacity: 0.3;
+}
+
+.why-overlay {
+
+  position: absolute;
+
+  inset: 0;
+
+  background:
+    linear-gradient(
+      180deg,
+      rgba(9,9,15,0.6),
+      rgba(9,9,15,0.95)
+    );
+}
+
+.why-hero-content {
+
+  position: relative;
+
+  z-index: 2;
+
+  max-width: 850px;
+
+  text-align: center;
+}
+
+.why-hero-content h1 {
+
+  font-size:
+    clamp(3rem, 8vw, 6rem);
+
+  line-height: 0.95;
+
+  margin:
+    1.5rem 0;
+
+  font-weight: 800;
+
+  letter-spacing: -0.05em;
+}
+
+.why-hero-content p {
+
+  max-width: 700px;
+
+  margin: 0 auto;
+
+  color:
+    rgba(255,255,255,0.75);
+
+  line-height: 1.9;
+
+  font-size: 1.1rem;
+}
+
+.why-hero-buttons {
+
+  display: flex;
+
+  gap: 1rem;
+
+  justify-content: center;
+
+  flex-wrap: wrap;
+
+  margin-top: 2rem;
+}
+
+/* SECTION */
+
+.why-section,
+.why-process-section,
+.why-cta-section {
+
+  padding:
+    6rem 2rem;
+}
+
+.why-container {
+
+  width: min(1300px, 92%);
+
+  margin: 0 auto;
+}
+
+/* GRID */
+
+.why-grid {
+
+  display: grid;
+
+  grid-template-columns:
+    repeat(auto-fit, minmax(250px, 1fr));
+
+  gap: 1.5rem;
+
+  margin-top: 3rem;
+}
+
+/* CARDS */
+
+.why-card,
+.process-card,
+.why-cta-box {
+
+  background:
+    rgba(255,255,255,0.04);
+
+  border:
+    1px solid rgba(255,255,255,0.08);
+
+  border-radius: 28px;
+
+  padding: 2rem;
+
+  backdrop-filter: blur(18px);
+
+  transition:
+    transform 0.3s ease,
+    border-color 0.3s ease;
+}
+
+.why-card:hover,
+.process-card:hover {
+
+  transform:
+    translateY(-4px);
+
+  border-color:
+    rgba(168,85,247,0.3);
+}
+
+.why-icon {
+
+  font-size: 2rem;
+
+  margin-bottom: 1rem;
+}
+
+.why-card h3,
+.process-card h3 {
+
+  margin-bottom: 1rem;
+
+  font-size: 1.3rem;
+}
+
+.why-card p,
+.process-card p {
+
+  color:
+    rgba(255,255,255,0.72);
+
+  line-height: 1.8;
+}
+
+/* PROCESS */
+
+.process-grid {
+
+  display: grid;
+
+  grid-template-columns:
+    repeat(auto-fit, minmax(220px, 1fr));
+
+  gap: 1.5rem;
+
+  margin-top: 3rem;
+}
+
+.process-number {
+
+  display: inline-flex;
+
+  align-items: center;
+  justify-content: center;
+
+  width: 50px;
+  height: 50px;
+
+  border-radius: 50%;
+
+  background:
+    linear-gradient(
+      135deg,
+      #8b5cf6,
+      #7c3aed
+    );
+
+  font-weight: 700;
+
+  margin-bottom: 1.2rem;
+}
+
+/* SPLIT */
+
+.why-split {
+
+  display: grid;
+
+  grid-template-columns:
+    0.9fr 1.1fr;
+
+  gap: 4rem;
+
+  align-items: center;
+}
+
+.why-image img {
+
+  width: 100%;
+
+  max-width: 420px;
+
+  display: block;
+
+  margin: 0 auto;
+
+  border-radius: 32px;
+}
+
+.why-content h2 {
+
+  font-size: clamp(2rem, 5vw, 3.5rem);
+
+  margin:
+    1rem 0 1.5rem;
+}
+
+.why-content p {
+
+  color:
+    rgba(255,255,255,0.75);
+
+  line-height: 1.9;
+}
+
+.why-list {
+
+  list-style: none;
+
+  margin-top: 2rem;
+
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 1rem;
+}
+
+.why-list li {
+
+  padding: 1rem 1.2rem;
+
+  border-radius: 18px;
+
+  background:
+    rgba(255,255,255,0.04);
+
+  border:
+    1px solid rgba(255,255,255,0.06);
+}
+
+/* CTA */
+
+.why-cta-box {
+
+  max-width: 900px;
+
+  margin: 0 auto;
+
+  text-align: center;
+}
+
+.why-cta-box h2 {
+
+  font-size:
+    clamp(2rem, 6vw, 4rem);
+
+  margin:
+    1rem 0;
+}
+
+.why-cta-box p {
+
+  color:
+    rgba(255,255,255,0.72);
+
+  margin-bottom: 2rem;
+
+  line-height: 1.8;
+}
+
+/* RESPONSIVE */
+
+@media (max-width: 900px) {
+
+  .why-split {
+
+    grid-template-columns: 1fr;
+
+    gap: 3rem;
+  }
+
+  .why-hero {
+
+    min-height: auto;
+
+    padding:
+      9rem 1.5rem
+      5rem;
+  }
+}

@@ -25,10 +25,13 @@
       width: 210mm;
       min-height: 297mm;
       background: white;
-      padding: 18mm;
+      padding: 16mm;
       box-sizing: border-box;
       position: relative;
       color: #111;
+      border-radius: 10px;
+      box-shadow: 0 8px 30px rgba(0,0,0,0.08);
+      overflow: hidden;
     }
 
     .pdf-page-2 {
@@ -38,8 +41,10 @@
     .pdf-header {
       display: flex;
       justify-content: space-between;
-      margin-bottom: 12mm;
+      margin-bottom: 10mm;
       align-items: flex-start;
+      padding-bottom: 5mm;
+      border-bottom: 0.4mm solid #e8e8e8;
     }
 
     .brand {
@@ -73,10 +78,13 @@
     }
 
     .preview-section h2 {
-      font-size: 13pt;
-      border-bottom: 0.4mm solid #ddd;
-      padding-bottom: 2mm;
-      margin-bottom: 4mm;
+      font-size: 11pt;
+      border-bottom: 0.3mm solid #ececec;
+      padding-bottom: 1.5mm;
+      margin-bottom: 3mm;
+      text-transform: uppercase;
+      letter-spacing: 0.4px;
+      color: #222;
     }
 
     .preview-section p,
@@ -88,18 +96,20 @@
 
     .preview-total {
       margin-top: 10mm;
-      padding: 6mm;
-      border: 0.5mm solid #000;
-      font-size: 14pt;
+      padding: 5mm 6mm;
+      border: 0.4mm solid #ddd;
+      border-radius: 8px;
+      font-size: 13pt;
+      background: #fafafa;
     }
 
     .pdf-footer {
       position: absolute;
-      bottom: 18mm;
-      left: 18mm;
-      right: 18mm;
-      font-size: 8.5pt;
-      color: #555;
+      bottom: 14mm;
+      left: 16mm;
+      right: 16mm;
+      font-size: 7.8pt;
+      color: #666;
     }
 
     .footer-line {
@@ -108,30 +118,37 @@
     }
 
     .legal-container {
-      font-size: 8.4pt;
+      font-size: 8.2pt;
       line-height: 1.45;
       color: #444;
+      display: flex;
+      flex-direction: column;
+      gap: 1.5mm;
     }
 
     .legal-container h1 {
-      font-size: 13pt;
-      margin-bottom: 4mm;
+      font-size: 12pt;
+      margin-bottom: 3mm;
       text-transform: uppercase;
-      letter-spacing: 0.5px;
+      letter-spacing: 1px;
       color: #111;
+      border-bottom: 0.3mm solid #ddd;
+      padding-bottom: 2mm;
     }
 
     .legal-container h2 {
-      font-size: 9.5pt;
-      margin-top: 5mm;
-      margin-bottom: 2mm;
+      font-size: 8.8pt;
+      margin-top: 3mm;
+      margin-bottom: 1mm;
       color: #222;
+      text-transform: uppercase;
+      letter-spacing: 0.4px;
     }
 
     .legal-container hr {
       border: none;
-      border-top: 0.2mm solid #ddd;
-      margin: 3mm 0;
+      border-top: 0.2mm solid #e5e5e5;
+      margin: 2mm 0;
     }
 
     button {
@@ -139,10 +156,17 @@
       width: 100%;
       cursor: pointer;
       border: none;
-      background: #111;
+      background: linear-gradient(135deg, #111, #2d2d2d);
       color: white;
-      border-radius: 8px;
+      border-radius: 12px;
       font-size: 15px;
+      font-weight: 600;
+      transition: 0.2s ease;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.15);
+    }
+
+    button:hover {
+      transform: translateY(-1px);
     }
 
     .button-container {
@@ -151,6 +175,11 @@
     }
 
     @media print {
+      .offer-preview {
+        box-shadow: none;
+        border-radius: 0;
+      }
+
       body {
         background: white;
       }
@@ -245,7 +274,7 @@
         Kontakt: joana.o.lavender@gmail.com
       </p>
 
-      
+      <hr>
 
       <h2>Angebot & Leistungen</h2>
 
@@ -258,7 +287,7 @@
         Änderungen, Erweiterungen oder zusätzliche Anforderungen können den finalen Preis beeinflussen.
       </p>
 
-      
+      <hr>
 
       <h2>Zahlung</h2>
 
@@ -267,7 +296,7 @@
         Bei größeren Projekten kann eine Teil- oder Vorauszahlung vereinbart werden.
       </p>
 
-      
+      <hr>
 
       <h2>Mitwirkungspflicht</h2>
 
@@ -276,7 +305,7 @@
         Informationen und Materialien rechtzeitig zur Verfügung.
       </p>
 
-      
+      <hr>
 
       <h2>Nutzungsrechte</h2>
 
@@ -284,7 +313,7 @@
         Nutzungsrechte an erstellten Leistungen gehen grundsätzlich erst nach vollständiger Bezahlung über.
       </p>
 
-      
+      <hr>
 
       <h2>Haftung</h2>
 
@@ -295,7 +324,7 @@
         soweit gesetzlich zulässig.
       </p>
 
-      
+      <hr>
 
       <h2>Datenschutz</h2>
 
@@ -309,7 +338,7 @@
         lavenderworks.de/datenschutz/
       </p>
 
-      
+      <hr>
 
       <h2>AGB</h2>
 
@@ -322,7 +351,7 @@
         lavenderworks.de/agb/
       </p>
 
-      
+      <hr>
 
       <p style="margin-top:8mm; font-size:7.5pt; color:#777;">
         Stand: Mai 2026 · Änderungen und Irrtümer vorbehalten.

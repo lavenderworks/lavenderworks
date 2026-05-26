@@ -75,9 +75,9 @@
 
     .offer-preview {
 
-      width: 210mm;
+      max-width: 210mm;
 
-      min-height: 297mm;
+      height: 290mm;
 
       background: white;
 
@@ -405,9 +405,9 @@
 
       .offer-preview {
 
-        width: 100%;
+        max-width: 100%;
 
-        min-height: auto;
+        height: 290mm;
 
         border-radius: 0;
 

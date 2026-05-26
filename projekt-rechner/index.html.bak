@@ -554,46 +554,6 @@
 
           </details>
 
-<!-- KUNDENDATEN -->
-
-<div class="lw-card">
-
-  <h2>
-    Kundendaten
-  </h2>
-
-  <div class="lw-field">
-
-    <label>
-      Name *
-    </label>
-
-    <input
-      type="text"
-      id="customerName"
-      required
-      placeholder="Max Mustermann"
-    >
-
-  </div>
-
-  <div class="lw-field">
-
-    <label>
-      E-Mail *
-    </label>
-
-    <input
-      type="email"
-      id="customerEmail"
-      required
-      placeholder="mail@beispiel.de"
-    >
-
-  </div>
-
-</div>
-
           <!-- DESCRIPTION -->
 
           <div class="lw-card">
@@ -660,345 +620,214 @@
 
   <footer></footer>
 
-<script src="../js/main.js"></script>
+  <script src="../js/main.js"></script>
 
-<script>
+  <script>
 
-  /* =========================
-     REFERENZNUMMER
-  ========================= */
+    function calculatePrice() {
 
-  const offerNumber =
-    `LW-2026-${Math.floor(1000 + Math.random() * 9000)}`;
+      let total = 0;
 
-  /* =========================
-     PREISKALKULATION
-  ========================= */
+      let summary = [];
 
-  function calculatePrice() {
+      // WEBSITE
 
-    let total = 0;
+      const websitePrice =
+        parseFloat(
+          document.getElementById(
+            "websiteType"
+          ).value
+        );
 
-    const summary = [];
+      total += websitePrice;
 
-    /* =========================
-       PROJEKTTYP
-    ========================= */
-
-    const selectedProjectType =
-      document.querySelector(
-        'input[name="projectType"]:checked'
+      summary.push(
+        document.getElementById(
+          "websiteType"
+        ).selectedOptions[0].text
       );
 
-    let projectTypeText = "Projekt";
+      // EXTRA PAGES
 
-    if(selectedProjectType) {
+      const extraPages =
+        parseInt(
+          document.getElementById(
+            "extraPages"
+          ).value
+        ) || 0;
 
-      switch(selectedProjectType.value) {
+      if(extraPages > 0) {
 
-        case "website":
-          projectTypeText = "Website";
-          break;
+        const extraPagePrice =
+          extraPages * 15;
 
-        case "writing":
-          projectTypeText = "Texte";
-          break;
+        total += extraPagePrice;
 
-        case "automation":
-          projectTypeText = "Automatisierung";
-          break;
-
-        case "support":
-          projectTypeText = "Techsupport";
-          break;
+        summary.push(
+          `${extraPages} zusätzliche Seiten (+${extraPagePrice}€)`
+        );
       }
-    }
 
-    const projectTitle =
-      `${projectTypeText} | RefNr.: ${offerNumber}`;
+      // TEXTS
 
-    /* =========================
-       WEBSITE
-    ========================= */
+      const textType =
+        parseFloat(
+          document.getElementById(
+            "textType"
+          ).value
+        );
 
-    const websiteSelect =
+      const textCount =
+        parseInt(
+          document.getElementById(
+            "textCount"
+          ).value
+        ) || 0;
+
+      if(textType > 0) {
+
+        const textPrice =
+          textType +
+          (textCount * 1.5);
+
+        total += textPrice;
+
+        summary.push(
+          `Texte (${textCount}) (+${textPrice.toFixed(2)}€)`
+        );
+      }
+
+      // SUPPORT
+
+      const supportHours =
+        parseInt(
+          document.getElementById(
+            "supportHours"
+          ).value
+        ) || 0;
+
+      if(supportHours > 0) {
+
+        const supportPrice =
+          supportHours * 10;
+
+        total += supportPrice;
+
+        summary.push(
+          `Techsupport (${supportHours}h) (+${supportPrice}€)`
+        );
+      }
+
+      // EXTRAS
+
+      document
+        .querySelectorAll(".calc-extra")
+        .forEach(extra => {
+
+          if(extra.checked) {
+
+            total +=
+              parseFloat(extra.value);
+
+            summary.push(
+              `${extra.dataset.name} (+${extra.value}€)`
+            );
+          }
+        });
+
+      // OUTPUT
+
       document.getElementById(
-        "websiteType"
-      );
+        "totalPrice"
+      ).textContent =
+        total.toFixed(2) + "€";
 
-    const websitePrice =
-      parseFloat(
-        websiteSelect.value
-      ) || 0;
-
-    total += websitePrice;
-
-    if(websitePrice > 0) {
-
-      summary.push(
-        websiteSelect.selectedOptions[0].text
-      );
-    }
-
-    /* =========================
-       EXTRA SEITEN
-    ========================= */
-
-    const extraPages =
-      parseInt(
+      const summaryList =
         document.getElementById(
-          "extraPages"
-        ).value
-      ) || 0;
+          "summaryList"
+        );
 
-    if(extraPages > 0) {
+      summaryList.innerHTML = "";
 
-      const extraPagePrice =
-        extraPages * 15;
+      summary.forEach(item => {
 
-      total += extraPagePrice;
-
-      summary.push(
-        `${extraPages} zusätzliche Seiten (+${extraPagePrice}€)`
-      );
-    }
-
-    /* =========================
-       TEXTE
-    ========================= */
-
-    const textType =
-      parseFloat(
-        document.getElementById(
-          "textType"
-        ).value
-      ) || 0;
-
-    const textCount =
-      parseInt(
-        document.getElementById(
-          "textCount"
-        ).value
-      ) || 0;
-
-    if(textType > 0) {
-
-      const textPrice =
-        textType +
-        (textCount * 1.5);
-
-      total += textPrice;
-
-      summary.push(
-        `Texte (${textCount}) (+${textPrice.toFixed(2)}€)`
-      );
-    }
-
-    /* =========================
-       SUPPORT
-    ========================= */
-
-    const supportHours =
-      parseInt(
-        document.getElementById(
-          "supportHours"
-        ).value
-      ) || 0;
-
-    if(supportHours > 0) {
-
-      const supportPrice =
-        supportHours * 10;
-
-      total += supportPrice;
-
-      summary.push(
-        `Techsupport (${supportHours}h) (+${supportPrice}€)`
-      );
-    }
-
-    /* =========================
-       EXTRAS
-    ========================= */
-
-    document
-      .querySelectorAll(".calc-extra")
-      .forEach(extra => {
-
-        if(extra.checked) {
-
-          const extraPrice =
-            parseFloat(extra.value) || 0;
-
-          total += extraPrice;
-
-          summary.push(
-            `${extra.dataset.name} (+${extraPrice}€)`
-          );
-        }
+        summaryList.innerHTML += `
+          <li>${item}</li>
+        `;
       });
 
-    /* =========================
-       PREISAUSGABE
-    ========================= */
+      // WHATSAPP
 
-    const formattedPrice =
-      total.toFixed(2) + "€";
+      const description =
+        document.getElementById(
+          "projectDescription"
+        ).value;
 
-    document.getElementById(
-      "totalPrice"
-    ).textContent =
-      formattedPrice;
-
-    /* =========================
-       SUMMARY LIST
-    ========================= */
-
-    const summaryList =
-      document.getElementById(
-        "summaryList"
-      );
-
-    summaryList.innerHTML = "";
-
-    summary.forEach(item => {
-
-      const li =
-        document.createElement("li");
-
-      li.textContent = item;
-
-      summaryList.appendChild(li);
-    });
-
-    /* =========================
-       KUNDENDATEN
-    ========================= */
-
-    const customerName =
-      document.getElementById(
-        "customerName"
-      )?.value.trim() || "";
-
-    const customerEmail =
-      document.getElementById(
-        "customerEmail"
-      )?.value.trim() || "";
-
-    /* =========================
-       BESCHREIBUNG
-    ========================= */
-
-    const description =
-      document.getElementById(
-        "projectDescription"
-      ).value.trim();
-
-    /* =========================
-       WHATSAPP TEXT
-    ========================= */
-
-    const message =
+      const message =
 
 `Hallo LavenderWorks 👋
 
-Name:
-${customerName || "-"}
+Ich interessiere mich für folgendes Projekt:
 
-E-Mail:
-${customerEmail || "-"}
-
-Projekt:
-${projectTitle}
-
-Leistungen:
-${summary.join("\n") || "-"}
+${summary.join("\n")}
 
 Projektbeschreibung:
 ${description || "Keine Beschreibung"}
 
 Geschätzter Preis:
-${formattedPrice}
+${total.toFixed(2)}€
 `;
 
-    document.getElementById(
-      "whatsappButton"
-    ).href =
-
-      "https://wa.me/4915215448631?text=" +
-      encodeURIComponent(message);
-
-    /* =========================
-       SESSION STORAGE
-    ========================= */
-
-    sessionStorage.setItem(
-      "lw_offer_data",
-      JSON.stringify({
-
-        offerNumber,
-
-        customerName,
-
-        customerEmail,
-
-        projectTitle,
-
-        summary,
-
-        description,
-
-        totalPrice:
-          formattedPrice
-      })
-    );
-  }
-
-  /* =========================
-     PDF PREVIEW
-  ========================= */
-
-  function openPDFPreview() {
-
-    const customerName =
       document.getElementById(
-        "customerName"
-      )?.value.trim();
+        "whatsappButton"
+      ).href =
 
-    const customerEmail =
-      document.getElementById(
-        "customerEmail"
-      )?.value.trim();
-
-    if(!customerName || !customerEmail) {
-
-      alert(
-        "Bitte Name und E-Mail ausfüllen."
-      );
-
-      return;
+        "https://wa.me/4915215448631?text=" +
+        encodeURIComponent(message);
     }
 
+    // EVENTS
+
+    document.addEventListener(
+      "input",
+      calculatePrice
+    );
+
+function openPDFPreview() {
+
+  // SUMMARY LIST aus DOM holen
+  const summaryItems = [];
+
+  document.querySelectorAll("#summaryList li").forEach(li => {
+    summaryItems.push(li.textContent);
+  });
+
+  const data = {
+    websiteType: document.getElementById("websiteType").value,
+    websiteText: document.getElementById("websiteType").selectedOptions[0].text,
+
+    extraPages: document.getElementById("extraPages").value,
+
+    textType: document.getElementById("textType").value,
+    textCount: document.getElementById("textCount").value,
+
+    supportHours: document.getElementById("supportHours").value,
+
+    description: document.getElementById("projectDescription").value,
+
+    totalPrice: document.getElementById("totalPrice").textContent,
+
+    summary: summaryItems
+  };
+
+  sessionStorage.setItem("lw_offer_data", JSON.stringify(data));
+
+  window.open("/pdf-export/", "_blank");
+}
     calculatePrice();
 
-    window.open(
-      "/pdf-export/",
-      "_blank"
-    );
-  }
+  </script>
 
-  /* =========================
-     EVENTS
-  ========================= */
-
-  document.addEventListener(
-    "input",
-    calculatePrice
-  );
-
-  calculatePrice();
-
-</script>
 </body>
 
 </html>

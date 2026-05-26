@@ -1,0 +1,434 @@
+<!DOCTYPE html><html lang="de"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">  <title>LavenderWorks Angebotsgenerator</title>  <link rel="stylesheet" href="../css/style.css">  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f4f4;
+      margin: 0;
+      padding: 0;
+    }
+
+    .offer-page {
+      padding: 20px;
+      display: flex;
+      justify-content: center;
+    }
+
+    #pdfDocument {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      align-items: center;
+    }
+
+    .offer-preview {
+      width: 210mm;
+      min-height: 297mm;
+      background: white;
+      padding: 16mm;
+      box-sizing: border-box;
+      position: relative;
+      color: #111;
+      border-radius: 10px;
+      box-shadow: 0 8px 30px rgba(0,0,0,0.08);
+      overflow: hidden;
+    }
+
+    .pdf-page-2 {
+      page-break-before: always;
+    }
+
+    .pdf-header {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 10mm;
+      align-items: flex-start;
+      padding-bottom: 5mm;
+      border-bottom: 0.4mm solid #e8e8e8;
+    }
+
+    .brand {
+      display: flex;
+      gap: 6mm;
+      align-items: center;
+    }
+
+    .logo {
+      width: 30mm;
+    }
+
+    .brand h1 {
+      margin: 0;
+      font-size: 18pt;
+    }
+
+    .brand p {
+      margin: 0;
+      font-size: 10pt;
+      color: #666;
+    }
+
+    .meta {
+      text-align: right;
+      font-size: 10pt;
+    }
+
+    .preview-section {
+      margin-bottom: 10mm;
+    }
+
+    .preview-section h2 {
+      font-size: 11pt;
+      border-bottom: 0.3mm solid #ececec;
+      padding-bottom: 1.5mm;
+      margin-bottom: 3mm;
+      text-transform: uppercase;
+      letter-spacing: 0.4px;
+      color: #222;
+    }
+
+    .preview-section p,
+    .preview-section pre {
+      font-size: 11pt;
+      line-height: 1.5;
+      white-space: pre-wrap;
+    }
+
+    .preview-total {
+      margin-top: 10mm;
+      padding: 5mm 6mm;
+      border: 0.4mm solid #ddd;
+      border-radius: 8px;
+      font-size: 13pt;
+      background: #fafafa;
+    }
+
+    .pdf-footer {
+      position: absolute;
+      bottom: 14mm;
+      left: 16mm;
+      right: 16mm;
+      font-size: 7.8pt;
+      color: #666;
+    }
+
+    .footer-line {
+      border-top: 0.3mm solid #ccc;
+      margin-bottom: 3mm;
+    }
+
+    .legal-container {
+      font-size: 8.2pt;
+      line-height: 1.45;
+      color: #444;
+      display: flex;
+      flex-direction: column;
+      gap: 1.5mm;
+    }
+
+    .legal-container h1 {
+      font-size: 12pt;
+      margin-bottom: 3mm;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: #111;
+      border-bottom: 0.3mm solid #ddd;
+      padding-bottom: 2mm;
+    }
+
+    .legal-container h2 {
+      font-size: 8.8pt;
+      margin-top: 3mm;
+      margin-bottom: 1mm;
+      color: #222;
+      text-transform: uppercase;
+      letter-spacing: 0.4px;
+    }
+
+    .legal-container hr {
+      border: none;
+      border-top: 0.2mm solid #e5e5e5;
+      margin: 2mm 0;
+    }
+
+    button {
+      padding: 12px;
+      width: 100%;
+      cursor: pointer;
+      border: none;
+      background: linear-gradient(135deg, #111, #2d2d2d);
+      color: white;
+      border-radius: 12px;
+      font-size: 15px;
+      font-weight: 600;
+      transition: 0.2s ease;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.15);
+    }
+
+    button:hover {
+      transform: translateY(-1px);
+    }
+
+    .button-container {
+      width: 210mm;
+      margin: 0 auto 30px;
+    }
+
+    @media print {
+      .offer-preview {
+        box-shadow: none;
+        border-radius: 0;
+      }
+
+      body {
+        background: white;
+      }
+
+      button {
+        display: none;
+      }
+    }
+  </style></head><body>  <main class="offer-page"><div id="pdfDocument">
+
+  <!-- PAGE 1 -->
+  <div class="offer-preview" id="offerPreview">
+
+    <div class="pdf-header">
+
+      <div class="brand">
+        <img src="/assets/logo.png" class="logo">
+
+        <div>
+          <h1>LavenderWorks</h1>
+          <p>Moderne digitale Lösungen</p>
+        </div>
+      </div>
+
+      <div class="meta">
+        <p><strong>Angebot:</strong> <span id="previewNumber"></span></p>
+        <p><strong>Datum:</strong> <span id="previewDate"></span></p>
+      </div>
+
+    </div>
+
+    <div class="preview-section">
+      <h2>Kunde</h2>
+      <p id="previewCustomer">—</p>
+      <p id="previewEmail">—</p>
+    </div>
+
+    <div class="preview-section">
+      <h2>Projekt</h2>
+      <p id="previewProject">—</p>
+    </div>
+
+    <div class="preview-section">
+      <h2>Leistungen</h2>
+      <pre id="previewServices">—</pre>
+    </div>
+
+    <div class="preview-section">
+      <h2>Projektbeschreibung</h2>
+      <p id="previewExtra">—</p>
+    </div>
+
+    <div class="preview-total">
+      Gesamtpreis: <strong id="previewPrice">0€</strong>
+    </div>
+
+    <div class="pdf-footer">
+
+      <div class="footer-line"></div>
+
+      <p>
+        LavenderWorks · Digitale Dienstleistungen · Deutschland
+      </p>
+
+      <p>
+        Dieses Angebot ist freibleibend und unverbindlich.
+        Änderungen und Irrtümer vorbehalten.
+      </p>
+
+    </div>
+
+  </div>
+
+  <!-- PAGE 2 -->
+  <!-- Rechtliche Hinweise / Kleingedrucktes -->
+  <div class="offer-preview pdf-page-2">
+
+    <section class="legal-container">
+
+      <p style="font-size:7.8pt; color:#666; margin-bottom:6mm;">
+        Die folgenden Hinweise und Bedingungen sind Bestandteil dieses Angebots,
+        sofern nicht ausdrücklich schriftlich etwas anderes vereinbart wurde.
+      </p>
+
+      <h1>Rechtliche Hinweise</h1>
+
+      <h2>Anbieter</h2>
+
+      <p>
+        LavenderWorks · Digitale Dienstleistungen<br>
+        Deutschland<br>
+        Kontakt: joana.o.lavender@gmail.com
+      </p>
+
+      <hr>
+
+      <h2>Angebot & Leistungen</h2>
+
+      <p>
+        Dieses Angebot ist freibleibend und unverbindlich.
+        Der genaue Leistungsumfang ergibt sich aus der individuellen Projektabsprache.
+      </p>
+
+      <p>
+        Änderungen, Erweiterungen oder zusätzliche Anforderungen können den finalen Preis beeinflussen.
+      </p>
+
+      <hr>
+
+      <h2>Zahlung</h2>
+
+      <p>
+        Zahlungen erfolgen nach individueller Vereinbarung.
+        Bei größeren Projekten kann eine Teil- oder Vorauszahlung vereinbart werden.
+      </p>
+
+      <hr>
+
+      <h2>Mitwirkungspflicht</h2>
+
+      <p>
+        Der Kunde stellt alle notwendigen Inhalte,
+        Informationen und Materialien rechtzeitig zur Verfügung.
+      </p>
+
+      <hr>
+
+      <h2>Nutzungsrechte</h2>
+
+      <p>
+        Nutzungsrechte an erstellten Leistungen gehen grundsätzlich erst nach vollständiger Bezahlung über.
+      </p>
+
+      <hr>
+
+      <h2>Haftung</h2>
+
+      <p>
+        LavenderWorks haftet nur im Rahmen der gesetzlichen Vorschriften.
+        Für Inhalte Dritter, externe Dienste,
+        Hosting-Anbieter oder Datenverluste wird keine Haftung übernommen,
+        soweit gesetzlich zulässig.
+      </p>
+
+      <hr>
+
+      <h2>Datenschutz</h2>
+
+      <p>
+        Personenbezogene Daten werden ausschließlich zur Bearbeitung von Anfragen,
+        Kommunikation und Projektabwicklung verarbeitet.
+      </p>
+
+      <p>
+        Weitere Informationen:
+        lavenderworks.de/datenschutz/
+      </p>
+
+      <hr>
+
+      <h2>AGB</h2>
+
+      <p>
+        Es gelten die Allgemeinen Geschäftsbedingungen von LavenderWorks.
+      </p>
+
+      <p>
+        Vollständige AGB:
+        lavenderworks.de/agb/
+      </p>
+
+      <hr>
+
+      <p style="margin-top:8mm; font-size:7.5pt; color:#777;">
+        Stand: Mai 2026 · Änderungen und Irrtümer vorbehalten.
+      </p>
+
+    </section>
+
+  </div>
+
+</div>
+
+  </main>  <div class="button-container">
+    <button onclick="generatePDF()">
+      📄 PDF herunterladen
+    </button>
+  </div>  <script>
+
+    const data = JSON.parse(sessionStorage.getItem("lw_offer_data") || "{}");
+
+    const offerNumber =
+      data.offerNumber ||
+      `LW-2026-${Math.floor(1000 + Math.random() * 9000)}`;
+
+    document.getElementById("previewNumber").textContent = offerNumber;
+
+    document.getElementById("previewDate").textContent =
+      new Date().toLocaleDateString("de-DE");
+
+    document.getElementById("previewCustomer").textContent =
+      data.customerName || "—";
+
+    document.getElementById("previewEmail").textContent =
+      data.customerEmail || "—";
+
+    document.getElementById("previewProject").textContent =
+      data.projectTitle || "—";
+
+    document.getElementById("previewServices").textContent =
+      (data.summary || []).join("\n") || "—";
+
+    document.getElementById("previewExtra").textContent =
+      data.description || "—";
+
+    document.getElementById("previewPrice").textContent =
+      data.totalPrice || "0€";
+
+    function generatePDF() {
+
+      const element = document.getElementById("pdfDocument");
+
+      const opt = {
+        margin: 0,
+        filename: `${offerNumber}.pdf`,
+        image: {
+          type: "jpeg",
+          quality: 1
+        },
+        html2canvas: {
+          scale: 2,
+          useCORS: true,
+          backgroundColor: "#ffffff",
+          scrollY: 0
+        },
+        jsPDF: {
+          unit: "mm",
+          format: "a4",
+          orientation: "portrait"
+        },
+        pagebreak: {
+          mode: ['css', 'legacy']
+        }
+      };
+
+      html2pdf()
+        .set(opt)
+        .from(element)
+        .save();
+    }
+
+  </script></body></html>

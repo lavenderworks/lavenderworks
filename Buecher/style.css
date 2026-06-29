@@ -1,0 +1,80 @@
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #0f0f12;
+  color: #f2f2f2;
+}
+
+.hero {
+  text-align: center;
+  padding: 80px 20px;
+  background: linear-gradient(135deg, #1a1a1f, #0f0f12);
+}
+
+h1 {
+  font-size: 40px;
+  margin-bottom: 10px;
+}
+
+.subtitle {
+  opacity: 0.7;
+  max-width: 600px;
+  margin: auto;
+}
+
+.btn {
+  display: inline-block;
+  margin-top: 20px;
+  padding: 12px 20px;
+  background: #c19a7b;
+  color: #000;
+  text-decoration: none;
+  border-radius: 8px;
+  font-weight: bold;
+}
+
+.book {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 30px;
+  padding: 60px 20px;
+  align-items: center;
+  justify-content: center;
+}
+
+.book img {
+  width: 250px;
+  border-radius: 10px;
+}
+
+.text {
+  max-width: 500px;
+}
+
+.excerpts {
+  padding: 40px 20px;
+  text-align: center;
+}
+
+.grid {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.grid img {
+  width: 250px;
+  border-radius: 10px;
+}
+
+.cta {
+  text-align: center;
+  padding: 60px 20px;
+}
+
+footer {
+  text-align: center;
+  padding: 20px;
+  opacity: 0.5;
+}

@@ -1,10 +1,22 @@
 <!DOCTYPE html>
 <html lang="de">
+
 <head>
+
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
 
 <title>PrivatChat</title>
+
+
+<!-- PWA -->
+
+<link rel="manifest" href="manifest.json">
+
+<meta name="theme-color" content="#6c4ab6">
+
 
 <style>
 
@@ -12,146 +24,281 @@
     box-sizing:border-box;
 }
 
-body {
+
+html,body {
+
     margin:0;
-    height:100vh;
-    font-family:Arial, sans-serif;
+    padding:0;
+
+    height:100%;
+
+    font-family:
+    Arial,
+    sans-serif;
+
     background:#ece5dd;
-    display:flex;
-    justify-content:center;
-    align-items:center;
+
 }
+
+
+body {
+
+    display:flex;
+
+    justify-content:center;
+
+}
+
+
 
 .app {
+
     width:100%;
+
     max-width:500px;
-    height:100vh;
-    max-height:800px;
+
+    height:100dvh;
+
     background:white;
+
     display:flex;
+
     flex-direction:column;
+
 }
 
 
-/* Login */
 
-.login {
-    padding:30px;
-    margin:auto;
-    width:90%;
-    text-align:center;
-}
-
-
-input, button, textarea {
-    width:100%;
-    padding:12px;
-    margin-top:10px;
-    border-radius:8px;
-    border:1px solid #ccc;
-    font-size:16px;
-}
-
-
-button {
-    background:#6c4ab6;
-    color:white;
-    border:none;
-    cursor:pointer;
-}
-
-
-button:hover {
-    opacity:.85;
-}
-
-
-.hidden {
-    display:none;
-}
-
-
-/* Chat */
+/* Kopf */
 
 .header {
 
     background:#6c4ab6;
+
     color:white;
+
     padding:15px;
+
+    text-align:center;
+
+    font-size:18px;
+
+}
+
+
+
+/* Seiten */
+
+.page {
+
+    flex:1;
+
+    display:flex;
+
+    flex-direction:column;
+
+    overflow:hidden;
+
+}
+
+
+
+.center {
+
+    margin:auto;
+
+    width:90%;
+
     text-align:center;
 
 }
 
 
-.messages {
 
-    flex:1;
-    overflow-y:auto;
-    padding:15px;
-    display:flex;
-    flex-direction:column;
+.hidden {
+
+    display:none!important;
 
 }
 
 
+
+/* Eingaben */
+
+
+input,
+textarea,
+button {
+
+
+    width:100%;
+
+    padding:12px;
+
+    margin-top:10px;
+
+    border-radius:10px;
+
+    border:1px solid #ccc;
+
+    font-size:16px;
+
+}
+
+
+
+button {
+
+    background:#6c4ab6;
+
+    color:white;
+
+    border:none;
+
+    cursor:pointer;
+
+}
+
+
+button:active {
+
+    transform:scale(.98);
+
+}
+
+
+
+/* Raumkarte */
+
+
+.room {
+
+    background:#f5f5f5;
+
+    padding:20px;
+
+    margin-top:20px;
+
+    border-radius:15px;
+
+}
+
+
+
+/* Chat */
+
+.messages {
+
+
+    flex:1;
+
+    overflow-y:auto;
+
+    overscroll-behavior:contain;
+
+    padding:15px;
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:8px;
+
+    scroll-behavior:smooth;
+
+}
+
+
+
 .message {
 
+
     max-width:80%;
-    padding:10px;
-    margin:5px;
-    border-radius:12px;
+
+    padding:12px;
+
+    border-radius:15px;
+
     word-wrap:break-word;
 
 }
 
 
+
 .mine {
 
-    background:#d9fdd3;
     align-self:flex-end;
 
+    background:#d9fdd3;
+
 }
+
 
 
 .other {
 
-    background:white;
     align-self:flex-start;
 
+    background:#f1f1f1;
+
 }
 
 
-.info {
+
+.meta {
 
     font-size:11px;
+
     opacity:.6;
+
+    margin-top:5px;
+
 }
 
 
-.input-area {
+
+/* Eingabe */
+
+
+.chat-input {
+
 
     display:flex;
+
+    gap:8px;
+
     padding:10px;
+
     background:#eee;
 
 }
 
 
-.input-area textarea {
+
+.chat-input textarea {
+
 
     flex:1;
+
     resize:none;
+
+    height:45px;
+
     margin:0;
 
 }
 
 
-.input-area button {
 
-    width:80px;
-    margin-left:8px;
+.chat-input button {
+
+
+    width:70px;
+
+    margin:0;
 
 }
+
 
 
 .error {
@@ -159,6 +306,7 @@ button:hover {
     color:red;
 
 }
+
 
 </style>
 
@@ -171,12 +319,80 @@ button:hover {
 <div class="app">
 
 
-<div id="loginBox" class="login">
+<!-- =====================
+     Raumübersicht
+===================== -->
 
 
-<h1>PrivatChat</h1>
+<div id="roomsPage"
+class="page">
 
-<p>Raum: <b>PrivatChat</b></p>
+
+<div class="header">
+
+💜 PrivatChat
+
+</div>
+
+
+<div class="center">
+
+
+<h2>Räume</h2>
+
+
+
+<div class="room">
+
+
+<h3>💜 PrivatChat</h3>
+
+
+<p>
+Privater verschlüsselter Chat
+</p>
+
+
+<button onclick="openRoom()">
+
+Raum betreten
+
+</button>
+
+
+</div>
+
+
+</div>
+
+
+</div>
+
+
+
+
+
+<!-- =====================
+     Login / Raum betreten
+===================== -->
+
+
+<div id="loginPage"
+class="page hidden">
+
+
+<div class="header">
+
+💜 PrivatChat
+
+</div>
+
+
+
+<div class="center">
+
+
+<h2>Raum betreten</h2>
 
 
 <input
@@ -190,12 +406,29 @@ type="password"
 placeholder="Chat-Passwort">
 
 
+
 <button onclick="joinChat()">
-Chat betreten
+
+Beitreten
+
 </button>
 
 
-<p id="error" class="error"></p>
+
+<button onclick="backRooms()">
+
+← Zurück zur Raumübersicht
+
+</button>
+
+
+
+<p id="error"
+class="error">
+</p>
+
+
+</div>
 
 
 </div>
@@ -203,33 +436,57 @@ Chat betreten
 
 
 
-<div id="chatBox" class="hidden">
+
+<!-- =====================
+     Chat
+===================== -->
+
+
+<div id="chatPage"
+class="page hidden">
 
 
 <div class="header">
 
-<b>PrivatChat</b>
+
+💜 PrivatChat
+
 <br>
-<span id="currentUser"></span>
+
+<small id="currentUser"></small>
+
+
+<button onclick="leaveChat()">
+
+← Räume
+
+</button>
+
 
 </div>
+
 
 
 <div id="messages"
 class="messages">
+
+
 </div>
 
 
-<div class="input-area">
+
+<div class="chat-input">
+
 
 <textarea
 id="messageInput"
-rows="1"
 placeholder="Nachricht..."></textarea>
 
 
 <button onclick="sendMessage()">
+
 ➤
+
 </button>
 
 
@@ -239,88 +496,400 @@ placeholder="Nachricht..."></textarea>
 </div>
 
 
-
 </div>
-
 <script type="module">
 
-import { initializeApp }
-from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+
+// ===============================
+// Firebase Imports
+// ===============================
+
 
 import {
-    getDatabase,
-    ref,
-    push,
-    onValue
+
+initializeApp
+
 }
+
+from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+
+
+
+import {
+
+getDatabase,
+ref,
+push,
+onValue
+
+}
+
 from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
 
 
-// ==========================
+
+import {
+
+getMessaging,
+getToken,
+onMessage
+
+}
+
+from "https://www.gstatic.com/firebasejs/10.12.2/firebase-messaging.js";
+
+
+
+
+// ===============================
 // Firebase Konfiguration
-// ==========================
+// ===============================
+
 
 const firebaseConfig = {
 
-apiKey: "AIzaSyD5Eec-EpfDGubP4UJ0yCVOLuREWzjLxLA",
+
+apiKey:
+
+"AIzaSyD5Eec-EpfDGubP4UJ0yCVOLuREWzjLxLA",
+
 
 authDomain:
+
 "privaterchatleonie.firebaseapp.com",
 
+
 databaseURL:
+
 "https://privaterchatleonie-default-rtdb.europe-west1.firebasedatabase.app",
 
+
 projectId:
+
 "privaterchatleonie",
 
+
 storageBucket:
+
 "privaterchatleonie.firebasestorage.app",
 
+
 messagingSenderId:
+
 "649802569393",
 
+
 appId:
+
 "1:649802569393:web:12cf37862a9acb0f95f490"
+
 
 };
 
+
+
+
+// Firebase starten
 
 
 const app =
 initializeApp(firebaseConfig);
 
 
+
 const db =
 getDatabase(app);
 
 
-// ==========================
+
+const messaging =
+getMessaging(app);
+
+
+
+
+// ===============================
 // Chat Einstellungen
-// ==========================
+// ===============================
 
 
 const ROOM_ID =
 "PChat001";
 
 
-// wird später aus Eingabe erzeugt
-let cryptoKey = null;
+const ROOM_NAME =
+"PrivatChat";
+
+
+
+// Benutzer
 
 
 let username = "";
 
 
+// AES Schlüssel
 
-// ==========================
-// Hilfsfunktionen
-// ==========================
+let cryptoKey = null;
+
+
+
+// Push Token
+
+let pushToken = null;
+
+
+
+
+
+// ===============================
+// PWA Service Worker
+// ===============================
+
+
+if(
+"serviceWorker" in navigator
+){
+
+
+navigator.serviceWorker
+.register(
+"firebase-messaging-sw.js"
+)
+
+.then(()=>{
+
+
+console.log(
+"Service Worker aktiv"
+);
+
+
+})
+
+
+.catch(
+err =>
+console.error(
+"Service Worker Fehler",
+err
+)
+
+);
+
+
+}
+
+
+
+
+// ===============================
+// Push aktivieren
+// ===============================
+
+
+async function enablePush(){
+
+
+try {
+
+
+const permission =
+await Notification.requestPermission();
+
+
+
+if(permission !== "granted"){
+
+console.log(
+"Push nicht erlaubt"
+);
+
+return;
+
+}
+
+
+
+const registration =
+await navigator.serviceWorker.ready;
+
+
+
+pushToken =
+await getToken(
+
+messaging,
+
+{
+
+
+vapidKey:
+
+"BHc9VESoDp3p5b8uciX4Djhyq1hcniTqFsJjcyP8qngUTl4XP4a7jLVpkbqIz6_SsMyLy9LUrIAyPU4A5jp-dAI",
+
+
+serviceWorkerRegistration:
+
+registration
+
+
+}
+
+);
+
+
+
+console.log(
+"Push Token:",
+pushToken
+);
+
+
+
+}
+
+catch(e){
+
+
+console.error(
+"Push Fehler:",
+e
+);
+
+
+}
+
+
+
+}
+
+
+
+// ===============================
+// Vordergrund Push
+// ===============================
+
+
+onMessage(
+
+messaging,
+
+(payload)=>{
+
+
+console.log(
+"Neue Push Nachricht:",
+payload
+);
+
+
+
+if(
+Notification.permission === "granted"
+){
+
+
+new Notification(
+
+payload.notification.title,
+
+{
+
+body:
+payload.notification.body
+
+}
+
+);
+
+
+}
+
+
+
+}
+
+);
+
+// ===============================
+// Raum Navigation
+// ===============================
+
+
+window.openRoom = function(){
+
+
+document
+.getElementById("roomsPage")
+.classList.add("hidden");
+
+
+
+document
+.getElementById("loginPage")
+.classList.remove("hidden");
+
+
+};
+
+
+
+
+
+window.backRooms = function(){
+
+
+document
+.getElementById("loginPage")
+.classList.add("hidden");
+
+
+
+document
+.getElementById("roomsPage")
+.classList.remove("hidden");
+
+
+};
+
+
+
+
+
+
+window.leaveChat = function(){
+
+
+document
+.getElementById("chatPage")
+.classList.add("hidden");
+
+
+
+document
+.getElementById("roomsPage")
+.classList.remove("hidden");
+
+
+};
+
+
+
+
+
+// ===============================
+// Base64 Hilfen
+// ===============================
 
 
 function bytesToBase64(bytes){
 
-    return btoa(
-        String.fromCharCode(...bytes)
-    );
+
+return btoa(
+String.fromCharCode(...bytes)
+);
+
 
 }
 
@@ -328,305 +897,468 @@ function bytesToBase64(bytes){
 
 function base64ToBytes(str){
 
-    return Uint8Array.from(
-        atob(str),
-        c=>c.charCodeAt(0)
-    );
+
+return Uint8Array.from(
+
+atob(str),
+
+c=>c.charCodeAt(0)
+
+);
+
 
 }
 
 
 
 
-// ==========================
+
+// ===============================
 // AES Schlüssel erzeugen
-// ==========================
+// ===============================
 
 
 async function createKey(password){
 
-    const encoder =
-    new TextEncoder();
 
-
-    const material =
-    await crypto.subtle.importKey(
-        "raw",
-        encoder.encode(password),
-        "PBKDF2",
-        false,
-        ["deriveKey"]
-    );
+const encoder =
+new TextEncoder();
 
 
 
-    // fester Salt für diesen Chatraum
-    const salt =
-    encoder.encode("PrivatChat-PChat001");
+const material =
+await crypto.subtle.importKey(
+
+"raw",
+
+encoder.encode(password),
+
+"PBKDF2",
+
+false,
+
+["deriveKey"]
+
+);
 
 
 
-    return await crypto.subtle.deriveKey(
 
-    {
-        name:"PBKDF2",
-        salt:salt,
-        iterations:200000,
-        hash:"SHA-256"
-    },
+return await crypto.subtle.deriveKey(
 
-    material,
+{
 
-    {
-        name:"AES-GCM",
-        length:256
-    },
 
-    false,
+name:"PBKDF2",
 
-    [
-        "encrypt",
-        "decrypt"
-    ]
 
-    );
+salt:
+encoder.encode(
+"PrivatChat-PChat001"
+),
+
+
+iterations:
+200000,
+
+
+hash:
+"SHA-256"
+
+
+},
+
+
+material,
+
+
+{
+
+
+name:"AES-GCM",
+
+
+length:
+256
+
+
+},
+
+
+false,
+
+
+[
+
+"encrypt",
+
+"decrypt"
+
+]
+
+
+);
+
 
 }
 
 
 
-// ==========================
-// Nachricht verschlüsseln
-// ==========================
+
+
+
+// ===============================
+// Verschlüsseln
+// ===============================
 
 
 async function encryptText(text){
 
-    const iv =
-    crypto.getRandomValues(
-        new Uint8Array(12)
-    );
 
+const iv =
+crypto.getRandomValues(
 
-    const encrypted =
-    await crypto.subtle.encrypt(
+new Uint8Array(12)
 
-    {
-        name:"AES-GCM",
-        iv:iv
-    },
+);
 
-    cryptoKey,
 
-    new TextEncoder()
-    .encode(text)
 
-    );
+const encrypted =
+await crypto.subtle.encrypt(
 
+{
 
 
-    return {
+name:"AES-GCM",
 
-        iv:
-        bytesToBase64(iv),
 
-        data:
-        bytesToBase64(
-            new Uint8Array(encrypted)
-        )
+iv:iv
 
-    };
 
-}
+},
 
 
+cryptoKey,
 
-// ==========================
-// Nachricht entschlüsseln
-// ==========================
 
+new TextEncoder()
+.encode(text)
 
-async function decryptText(obj){
 
-    const decrypted =
-    await crypto.subtle.decrypt(
+);
 
-    {
 
-        name:"AES-GCM",
 
-        iv:
-        base64ToBytes(obj.iv)
 
-    },
+return {
 
-    cryptoKey,
 
-    base64ToBytes(obj.data)
+iv:
+bytesToBase64(iv),
 
-    );
 
+data:
+bytesToBase64(
 
-    return new TextDecoder()
-    .decode(decrypted);
+new Uint8Array(encrypted)
 
-}
-  
-// ==========================
-// Chat betreten
-// ==========================
-
-
-window.joinChat = async function(){
-
-
-    const nameInput =
-    document.getElementById("username").value.trim();
-
-
-    const password =
-    document.getElementById("roomPassword").value;
-
-
-
-    if(!nameInput || !password){
-
-        document.getElementById("error")
-        .innerText =
-        "Bitte Name und Passwort eingeben";
-
-        return;
-
-    }
-
-
-
-    try {
-
-
-        cryptoKey =
-        await createKey(password);
-
-
-
-        username =
-        nameInput;
-
-
-
-        document.getElementById("currentUser")
-        .innerText =
-        username;
-
-
-
-        document.getElementById("loginBox")
-        .classList.add("hidden");
-
-
-        document.getElementById("chatBox")
-        .classList.remove("hidden");
-
-
-
-        loadMessages();
-
-
-
-    } catch(e){
-
-
-        document.getElementById("error")
-        .innerText =
-        "Fehler beim Beitreten";
-
-
-    }
+)
 
 
 };
 
 
+}
 
 
 
-// ==========================
+
+
+
+// ===============================
+// Entschlüsseln
+// ===============================
+
+
+async function decryptText(obj){
+
+
+const decrypted =
+await crypto.subtle.decrypt(
+
+{
+
+
+name:"AES-GCM",
+
+
+iv:
+base64ToBytes(obj.iv)
+
+
+},
+
+
+cryptoKey,
+
+
+base64ToBytes(obj.data)
+
+
+);
+
+
+
+
+return new TextDecoder()
+.decode(decrypted);
+
+
+}
+
+
+
+
+
+
+// ===============================
+// Chat betreten
+// ===============================
+
+
+window.joinChat = async function(){
+
+
+const name =
+document
+.getElementById("username")
+.value
+.trim();
+
+
+
+const password =
+document
+.getElementById("roomPassword")
+.value;
+
+
+
+
+if(!name || !password){
+
+
+document
+.getElementById("error")
+.innerText =
+"Bitte Name und Passwort eingeben";
+
+
+return;
+
+
+}
+
+
+
+try {
+
+
+
+cryptoKey =
+await createKey(password);
+
+
+
+username =
+name;
+
+
+
+document
+.getElementById("currentUser")
+.innerText =
+username;
+
+
+
+document
+.getElementById("loginPage")
+.classList.add("hidden");
+
+
+
+document
+.getElementById("chatPage")
+.classList.remove("hidden");
+
+
+
+// Push erlauben
+
+enablePush();
+
+
+
 // Nachrichten laden
-// ==========================
+
+loadMessages();
+
+
+
+}
+
+catch(e){
+
+
+document
+.getElementById("error")
+.innerText =
+"Fehler beim Beitreten";
+
+
+}
+
+
+
+};
+
+// ===============================
+// Nachrichten laden
+// ===============================
 
 
 function loadMessages(){
 
 
 const messagesRef =
+
 ref(
-    db,
-    "rooms/" +
-    ROOM_ID +
-    "/messages"
+
+db,
+
+"rooms/" +
+ROOM_ID +
+"/messages"
+
 );
 
 
 
 onValue(
+
 messagesRef,
 
 async(snapshot)=>{
 
 
 const box =
+
 document.getElementById("messages");
 
 
-box.innerHTML="";
+
+// Prüfen, ob Nutzer schon unten war
+
+const wasAtBottom =
+
+box.scrollHeight -
+box.scrollTop -
+box.clientHeight < 80;
 
 
 
-for(const child of snapshot.val()
-    ? Object.values(snapshot.val())
-    : []
-){
+box.innerHTML = "";
 
 
-try{
+
+const data =
+
+snapshot.val();
+
+
+
+if(!data){
+
+return;
+
+}
+
+
+
+const messages =
+
+Object.values(data)
+
+.sort(
+
+(a,b)=>
+
+a.time - b.time
+
+);
+
+
+
+
+for(const msg of messages){
+
+
+
+try {
+
 
 
 const text =
-await decryptText(child);
+
+await decryptText(msg);
 
 
 
 const div =
+
 document.createElement("div");
 
 
 
 div.className =
+
 "message " +
+
 (
-child.sender === username
+
+msg.sender === username
+
 ?
+
 "mine"
+
 :
+
 "other"
+
 );
 
 
 
 div.innerHTML = `
 
-<b>${child.sender}</b>
+<b>${escapeHTML(msg.sender)}</b>
 
 <br>
 
-${text}
+${escapeHTML(text)}
 
-<br>
+<div class="meta">
 
-<span class="info">
-${new Date(child.time)
-.toLocaleString()}
-</span>
+${new Date(msg.time)
+.toLocaleTimeString([],{
+hour:"2-digit",
+minute:"2-digit"
+})}
+
+</div>
 
 `;
 
@@ -640,19 +1372,34 @@ box.appendChild(div);
 
 catch(e){
 
+
 console.log(
-"Nachricht konnte nicht entschlüsselt werden"
+
+"Nicht entschlüsselbare Nachricht"
+
 );
 
-}
-
 
 }
 
+
+}
+
+
+
+
+// nur automatisch scrollen,
+// wenn man bereits unten war
+
+if(wasAtBottom){
 
 
 box.scrollTop =
+
 box.scrollHeight;
+
+
+}
 
 
 
@@ -663,36 +1410,72 @@ box.scrollHeight;
 
 }
 
-  
-// ==========================
+
+
+
+
+// ===============================
+// Schutz vor HTML-Eingaben
+// ===============================
+
+
+function escapeHTML(text){
+
+
+return text
+
+.replaceAll("&","&amp;")
+
+.replaceAll("<","&lt;")
+
+.replaceAll(">","&gt;")
+
+.replaceAll('"',"&quot;")
+
+.replaceAll("'","&#039;");
+
+
+}
+
+
+// ===============================
 // Nachricht senden
-// ==========================
+// ===============================
 
 
 window.sendMessage = async function(){
 
 
 const input =
-document.getElementById("messageInput");
+
+document.getElementById(
+"messageInput"
+);
+
 
 
 const text =
+
 input.value.trim();
 
 
 
-if(!text || !cryptoKey){
+if(
+!text ||
+!cryptoKey
+){
 
-    return;
+return;
 
 }
 
 
 
-try{
+try {
 
 
 const encrypted =
+
 await encryptText(text);
 
 
@@ -700,42 +1483,63 @@ await encryptText(text);
 await push(
 
 ref(
-    db,
-    "rooms/" +
-    ROOM_ID +
-    "/messages"
+
+db,
+
+"rooms/" +
+ROOM_ID +
+"/messages"
+
 ),
+
 
 {
 
-sender: username,
+
+sender:
+
+username,
+
 
 iv:
+
 encrypted.iv,
 
+
 data:
+
 encrypted.data,
 
+
 time:
+
 Date.now()
 
+
 }
+
 
 );
 
 
 
-input.value="";
+input.value = "";
+
 
 
 }
 
 catch(e){
 
+
 console.error(
-"Fehler beim Senden:",
+
+"Senden fehlgeschlagen:",
+
 e
+
 );
+
 
 }
 
@@ -746,24 +1550,37 @@ e
 
 
 
-// ==========================
-// Enter = Senden
-// ==========================
+
+// ===============================
+// Enter senden
+// ===============================
 
 
 document
-.getElementById("messageInput")
+
+.getElementById(
+"messageInput"
+)
+
 .addEventListener(
+
 "keydown",
 
-function(e){
+(e)=>{
 
 
-if(e.key==="Enter" && !e.shiftKey){
+if(
+e.key === "Enter"
+&&
+!e.shiftKey
+){
 
-    e.preventDefault();
 
-    sendMessage();
+e.preventDefault();
+
+
+sendMessage();
+
 
 }
 
@@ -771,6 +1588,83 @@ if(e.key==="Enter" && !e.shiftKey){
 }
 
 );
+
+
+
+
+
+// ===============================
+// Neuer Nachrichtenton
+// ===============================
+
+
+let lastMessageCount = 0;
+
+
+
+const sound = new Audio(
+
+"data:audio/mp3;base64,//uQxAAAAAAAAAAAAAAAAAAAAAA..."
+
+);
+
+
+
+function playNotificationSound(){
+
+
+try {
+
+
+sound.play();
+
+
+}
+
+catch(e){
+
+
+console.log(
+"Ton blockiert"
+);
+
+
+}
+
+
+}
+
+
+
+
+
+
+
+// ===============================
+// PWA Registrierung
+// ===============================
+
+
+if(
+"serviceWorker" in navigator
+){
+
+
+navigator.serviceWorker
+.ready
+.then(()=>{
+
+
+console.log(
+"PWA bereit"
+);
+
+
+});
+
+
+}
+
 
 
 </script>

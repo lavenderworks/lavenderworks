@@ -1,0 +1,683 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Private Nachrichten</title>
+
+<style>
+
+* {
+    box-sizing:border-box;
+}
+
+body {
+    margin:0;
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    background:#f2f2f5;
+    font-family:Arial, sans-serif;
+}
+
+.container {
+    width:92%;
+    max-width:520px;
+    background:white;
+    padding:25px;
+    border-radius:18px;
+    box-shadow:0 8px 30px #0002;
+}
+
+h1,h2 {
+    text-align:center;
+}
+
+input,
+textarea,
+button {
+    width:100%;
+    padding:12px;
+    margin-top:12px;
+    font-size:16px;
+    border-radius:8px;
+}
+
+input,
+textarea {
+    border:1px solid #ccc;
+}
+
+button {
+    border:none;
+    background:#333;
+    color:white;
+    cursor:pointer;
+}
+
+button:hover {
+    opacity:.85;
+}
+
+.hidden {
+    display:none;
+}
+
+.card {
+    background:#f4f4f4;
+    padding:15px;
+    border-radius:12px;
+    margin-top:15px;
+    white-space:pre-wrap;
+}
+
+.success {
+    color:green;
+}
+
+.error {
+    color:red;
+}
+
+.small {
+    font-size:12px;
+    opacity:.7;
+}
+
+</style>
+
+</head>
+
+<body>
+
+
+<div class="container">
+
+
+<div id="mainLogin">
+
+<h1>🔒 Privat</h1>
+
+<input 
+id="userPassword"
+type="password"
+placeholder="Passwort">
+
+<button onclick="userLogin()">
+Öffnen
+</button>
+
+<p id="loginError" class="error"></p>
+
+
+<hr>
+
+<button onclick="showAdminLogin()">
+🛠 Admin
+</button>
+
+</div>
+
+
+
+<div id="adminLogin" class="hidden">
+
+<h2>🛠 Admin Login</h2>
+
+<input 
+id="adminPassword"
+type="password"
+placeholder="Admin Passwort">
+
+<button onclick="adminLogin()">
+Einloggen
+</button>
+
+<button onclick="backToLogin()">
+Zurück
+</button>
+
+<p id="adminError" class="error"></p>
+
+</div>
+
+
+
+<div id="privateArea" class="hidden">
+
+<h2>💌 Nachrichten</h2>
+
+
+<div id="messages"></div>
+
+
+<h3>Antwort senden</h3>
+
+
+<form action="https://formspree.io/f/mjgngang" method="POST">
+
+
+<textarea
+name="message"
+rows="6"
+placeholder="Deine Nachricht..."
+required></textarea>
+
+
+<input type="hidden"
+name="_subject"
+value="Neue private Nachricht">
+
+
+<button type="submit">
+Senden
+</button>
+
+
+</form>
+
+
+</div>
+
+
+
+<div id="adminArea" class="hidden">
+
+<h2>🔐 Nachricht verschlüsseln</h2>
+
+
+<input 
+id="msgTitle"
+placeholder="Titel">
+
+
+<textarea
+id="msgText"
+rows="6"
+placeholder="Nachricht"></textarea>
+
+
+<button onclick="encryptMessage()">
+Verschlüsseln
+</button>
+
+
+<textarea
+id="output"
+rows="10"
+readonly
+placeholder="JSON erscheint hier">
+</textarea>
+
+
+<button onclick="copyOutput()">
+📋 Kopieren
+</button>
+
+
+<button onclick="logoutAdmin()">
+Admin verlassen
+</button>
+
+
+</div>
+
+
+</div>
+<script>
+
+// =============================
+// Passwort-Prüfwerte
+// (werden nicht als Klartext gespeichert)
+// =============================
+
+// Diese Werte sind Platzhalter für die final berechneten Hashes
+const USER_HASH =
+"1b644618611a2a06bb0fe1bd6be5b1d7669cfbc01ca914b6815ba1e501b163ca";
+
+const ADMIN_HASH =
+"e8149b27cd279d4956f3bd717d3ba1ecf1c6adadf26fe7f6843e7c2ac453ffdf";
+
+// =============================
+// Hilfsfunktionen
+// =============================
+
+async function sha256(text){
+
+    const data =
+        new TextEncoder().encode(text);
+
+    const hash =
+        await crypto.subtle.digest(
+            "SHA-256",
+            data
+        );
+
+    return Array.from(
+        new Uint8Array(hash)
+    )
+    .map(b =>
+        b.toString(16)
+        .padStart(2,"0")
+    )
+    .join("");
+
+}
+
+
+
+function randomBytes(length){
+
+    return crypto.getRandomValues(
+        new Uint8Array(length)
+    );
+
+}
+
+
+
+function arrayToBase64(arr){
+
+    return btoa(
+        String.fromCharCode(...arr)
+    );
+
+}
+
+
+
+function base64ToArray(str){
+
+    return Uint8Array.from(
+        atob(str),
+        c => c.charCodeAt(0)
+    );
+
+}
+
+
+
+// =============================
+// Login Benutzer
+// =============================
+
+async function userLogin(){
+
+    const pass =
+    document.getElementById("userPassword").value;
+
+
+    const hash =
+    await sha256(pass);
+
+
+    if(hash === USER_HASH){
+
+        document.getElementById("mainLogin")
+        .classList.add("hidden");
+
+
+        document.getElementById("privateArea")
+        .classList.remove("hidden");
+
+
+        loadMessages();
+
+
+    } else {
+
+        document.getElementById("loginError")
+        .innerHTML =
+        "❌ Falsches Passwort";
+
+    }
+
+}
+
+
+
+// =============================
+// Admin Login
+// =============================
+
+function showAdminLogin(){
+
+    document.getElementById("mainLogin")
+    .classList.add("hidden");
+
+
+    document.getElementById("adminLogin")
+    .classList.remove("hidden");
+
+}
+
+
+
+function backToLogin(){
+
+    document.getElementById("adminLogin")
+    .classList.add("hidden");
+
+
+    document.getElementById("mainLogin")
+    .classList.remove("hidden");
+
+}
+
+
+
+async function adminLogin(){
+
+    const pass =
+    document.getElementById("adminPassword").value;
+
+
+    const hash =
+    await sha256(pass);
+
+
+    if(hash === ADMIN_HASH){
+
+        document.getElementById("adminLogin")
+        .classList.add("hidden");
+
+
+        document.getElementById("adminArea")
+        .classList.remove("hidden");
+
+
+    } else {
+
+        document.getElementById("adminError")
+        .innerHTML =
+        "❌ Falsches Admin Passwort";
+
+    }
+
+}
+
+
+
+// =============================
+// AES Nachricht verschlüsseln
+// =============================
+
+async function encryptMessage(){
+
+    const title =
+    document.getElementById("msgTitle").value;
+
+
+    const text =
+    document.getElementById("msgText").value;
+
+
+    if(!text){
+        return;
+    }
+
+
+    const password =
+    "LeonieMeier3002";
+
+
+    const salt =
+    randomBytes(16);
+
+
+    const iv =
+    randomBytes(12);
+
+
+
+    const keyMaterial =
+    await crypto.subtle.importKey(
+        "raw",
+        new TextEncoder()
+        .encode(password),
+        "PBKDF2",
+        false,
+        ["deriveKey"]
+    );
+
+
+
+    const key =
+    await crypto.subtle.deriveKey(
+    {
+        name:"PBKDF2",
+        salt:salt,
+        iterations:200000,
+        hash:"SHA-256"
+    },
+    keyMaterial,
+    {
+        name:"AES-GCM",
+        length:256
+    },
+    false,
+    ["encrypt"]
+    );
+
+
+
+    const encrypted =
+    await crypto.subtle.encrypt(
+    {
+        name:"AES-GCM",
+        iv:iv
+    },
+    key,
+    new TextEncoder()
+    .encode(text)
+    );
+
+
+
+    const result = {
+
+        title:title,
+
+        salt:
+        arrayToBase64(salt),
+
+        iv:
+        arrayToBase64(iv),
+
+        data:
+        arrayToBase64(
+            new Uint8Array(encrypted)
+        )
+
+    };
+
+
+
+    document.getElementById("output")
+    .value =
+    JSON.stringify(
+        result,
+        null,
+        2
+    );
+
+}
+
+
+
+function copyOutput(){
+
+    const box =
+    document.getElementById("output");
+
+    box.select();
+
+    navigator.clipboard
+    .writeText(box.value);
+
+}
+
+
+
+function logoutAdmin(){
+
+    document.getElementById("adminArea")
+    .classList.add("hidden");
+
+
+    document.getElementById("mainLogin")
+    .classList.remove("hidden");
+
+}
+
+
+// =============================
+// Verschlüsselte Nachrichten
+// Hier die JSON-Blöcke aus dem Adminbereich einfügen
+// =============================
+
+const encryptedMessages = [
+
+{
+  "title": "Für Leonie",
+  "salt": "3lyIjlBs83wWGsHCbDzucQ==",
+  "iv": "74LfUdms5w9kNcUx",
+  "data": "uDwuIZdbTT0Kcg5BADh0+AJC10AUzhMmhbpVkCKEZwRNtfa6MnsUeFe7TOvhF/8HmPSBFiyxZE6//VbMeZiadXC5uSnKc2g7R+w4ZCbOEwXmzO5+MBqpp3WNyTzTUA=="
+}
+];
+
+
+// =============================
+// Nachrichten entschlüsseln
+// =============================
+
+async function decryptMessage(item){
+
+    const password =
+    "LeonieMeier3002";
+
+
+    const salt =
+    base64ToArray(item.salt);
+
+
+    const iv =
+    base64ToArray(item.iv);
+
+
+
+    const keyMaterial =
+    await crypto.subtle.importKey(
+        "raw",
+        new TextEncoder()
+        .encode(password),
+        "PBKDF2",
+        false,
+        ["deriveKey"]
+    );
+
+
+
+    const key =
+    await crypto.subtle.deriveKey(
+    {
+        name:"PBKDF2",
+        salt:salt,
+        iterations:200000,
+        hash:"SHA-256"
+    },
+    keyMaterial,
+    {
+        name:"AES-GCM",
+        length:256
+    },
+    false,
+    ["decrypt"]
+    );
+
+
+
+    const decrypted =
+    await crypto.subtle.decrypt(
+    {
+        name:"AES-GCM",
+        iv:iv
+    },
+    key,
+    base64ToArray(item.data)
+    );
+
+
+    return new TextDecoder()
+    .decode(decrypted);
+
+}
+
+
+
+// =============================
+// Nachrichten anzeigen
+// =============================
+
+async function loadMessages(){
+
+    const box =
+    document.getElementById("messages");
+
+
+    if(encryptedMessages.length === 0){
+
+        box.innerHTML =
+        "<p>Noch keine Nachrichten vorhanden.</p>";
+
+        return;
+
+    }
+
+
+
+    for(const msg of encryptedMessages){
+
+        try {
+
+            const text =
+            await decryptMessage(msg);
+
+
+            box.innerHTML += `
+
+            <div class="card">
+
+            <b>${msg.title}</b>
+
+            <br><br>
+
+            ${text}
+
+            </div>
+
+            `;
+
+
+        } catch(e){
+
+            box.innerHTML +=
+            "<div class='card'>❌ Nachricht konnte nicht entschlüsselt werden</div>";
+
+        }
+
+    }
+
+}
+
+
+// =============================
+// Ende
+// =============================
+
+</script>
+
+</body>
+</html>

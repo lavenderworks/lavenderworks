@@ -1,0 +1,377 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#17101c">
+<title>♡ Kink & Compatibility — Fragebogen</title>
+<style>
+:root{
+  --bg:#100c13;--card:#1b1420;--card2:#241a2b;--text:#f7edf8;--muted:#bcaabd;
+  --pink:#e889c7;--pink2:#c45da7;--line:#3a2940;--good:#8ed9b0;
+}
+*{box-sizing:border-box}
+body{margin:0;background:radial-gradient(circle at 20% 0,#392039 0,#100c13 45%);
+ color:var(--text);font:16px/1.45 system-ui,-apple-system,Segoe UI,sans-serif}
+header{position:sticky;top:0;z-index:5;background:#100c13eF;backdrop-filter:blur(14px);
+ border-bottom:1px solid var(--line);padding:14px 16px}
+h1{font-size:22px;margin:0}.sub{color:var(--muted);font-size:13px;margin-top:3px}
+main{max-width:900px;margin:auto;padding:14px 12px 100px}
+.notice{background:#24172a;border:1px solid #5a3b61;border-radius:16px;padding:14px;margin-bottom:14px}
+.section{background:var(--card);border:1px solid var(--line);border-radius:18px;margin:12px 0;overflow:hidden}
+.section h2{font-size:18px;margin:0;padding:16px;background:var(--card2)}
+.section .intro{color:var(--muted);padding:12px 16px 4px;font-size:13px}
+.item{padding:14px 16px;border-top:1px solid var(--line)}
+.label{font-weight:650}.desc{font-size:12px;color:var(--muted);margin-top:2px}
+.scale{display:grid;grid-template-columns:repeat(7,1fr);gap:5px;margin-top:10px}
+.scale button{border:1px solid #47344d;background:#171019;color:#fff;border-radius:10px;
+ min-height:44px;font-size:21px;cursor:pointer}
+.scale button span{display:block;font-size:9px;color:var(--muted);margin-top:1px}
+.scale button.sel{border-color:var(--pink);background:#44233f;box-shadow:0 0 0 2px #e889c733}
+textarea,input{width:100%;border:1px solid var(--line);border-radius:12px;background:#120e15;color:var(--text);
+ padding:11px;font:inherit;margin-top:7px}
+.actions{position:fixed;bottom:0;left:0;right:0;background:#100c13ee;border-top:1px solid var(--line);
+ padding:10px;display:flex;gap:8px;justify-content:center;z-index:6}
+button.action{border:0;border-radius:12px;padding:11px 16px;font-weight:700;background:var(--pink);color:#210f1e}
+button.secondary{background:#2a1e30;color:var(--text);border:1px solid var(--line)}
+#result{white-space:pre-wrap;background:#0d0a10;border:1px solid var(--line);border-radius:14px;padding:14px;
+ min-height:180px;margin-top:10px;font-size:14px}
+.small{font-size:12px;color:var(--muted)}
+@media(max-width:520px){.scale button{font-size:18px;padding:2px}.scale button span{font-size:8px}}
+</style>
+</head>
+<body>
+<header>
+  <h1>♡ Kink & Compatibility</h1>
+  <div class="sub">Sexuelle Vorlieben, Grenzen & Neugier — zum gegenseitigen Abgleich</div>
+</header>
+
+<main>
+<div class="notice">
+  <b>So funktioniert's</b><br>
+  Bewerte jede Aussage mit einem Emoji:
+  ☹️ = gar nicht · 🙁 = eher nein · 🙄 = skeptisch · 🤷 = unentschieden · 🙂 = eher ja · 😍 = sehr gern · 🥰 = absolut meins
+  <div class="small" style="margin-top:7px">Die Antworten sind nur lokal in diesem Browser und werden nicht automatisch übertragen.</div>
+</div>
+
+<div class="section">
+<h2>👤 Persönlicher Rahmen</h2>
+<div class="item"><div class="label">Wie wichtig ist sexuelle Nähe für dich?</div><div class="desc">Bedeutung von Sexualität innerhalb einer Beziehung / Verbindung.</div>
+<div class="scale" data-key="importance"></div></div>
+<div class="item"><div class="label">Wie wichtig sind emotionale Nähe und Vertrauen?</div><div class="scale" data-key="trust"></div></div>
+<div class="item"><div class="label">Wie wichtig ist dir Spontaneität?</div><div class="scale" data-key="spontaneity"></div></div>
+<div class="item"><div class="label">Wie wichtig ist dir Planung / vorherige Absprache?</div><div class="scale" data-key="planning"></div></div>
+</div>
+
+<div id="sections"></div>
+
+<div class="section">
+<h2>📝 Eigene Themen</h2>
+<div class="item">
+  <div class="label">Was fehlt dir in der Liste?</div>
+  <div class="desc">Eigene Wünsche, Begriffe, Szenarien oder Dinge, die du gerne ausprobieren würdest.</div>
+  <textarea id="customLikes" rows="4" placeholder="z. B. etwas, das dir besonders wichtig ist …"></textarea>
+</div>
+<div class="item">
+  <div class="label">Was ist für dich eine klare Grenze?</div>
+  <textarea id="customNo" rows="4" placeholder="Alles, was du grundsätzlich nicht möchtest …"></textarea>
+</div>
+<div class="item">
+  <div class="label">Was sollte ein:e Partner:in unbedingt wissen?</div>
+  <textarea id="customInfo" rows="4" placeholder="Kommunikation, Bedürfnisse, Aftercare, Tempo …"></textarea>
+</div>
+</div>
+
+<div class="section">
+<h2>💌 Ergebnis</h2>
+<div class="item">
+  <label class="label">Name / Spitzname</label>
+  <input id="name" placeholder="optional">
+  <div id="result">Noch keine Antworten.</div>
+</div>
+</div>
+</main>
+
+<div class="actions">
+<button class="action" onclick="makeResult()">✨ Ergebnis erstellen</button>
+<button class="action secondary" onclick="copyResult()">📋 Kopieren</button>
+<button class="action secondary" onclick="resetAll()">↺ Zurücksetzen</button>
+</div>
+
+<script>
+const emojis=["☹️","🙁","🙄","🤷","🙂","😍","🥰"];
+const meanings=["gar nicht","eher nein","skeptisch","unentschieden","eher ja","sehr gern","absolut meins"];
+
+const groups=[
+["💞 Nähe, Zärtlichkeit & Intimität",[
+["Affection","Zärtliche Berührungen und liebevolle Nähe"],["Kissing","Küssen als wichtiger Teil von Intimität"],
+["Cuddling","Kuscheln und längere körperliche Nähe"],["Sensuality","Langsame, sinnliche Atmosphäre"],
+["Romantic atmosphere","Romantische Stimmung, Licht, Musik oder Kerzen"],
+["Passion","Intensive, leidenschaftliche Dynamik"],["Flirting","Flirten und spielerische Spannung"],
+["Teasing","Necken und bewusstes Aufbauen von Spannung"],["Anticipation","Vorfreude und langsamer Spannungsaufbau"],
+["Eye contact","Intensiver Blickkontakt"],["Body admiration","Komplimente und bewusste Wertschätzung des Körpers"],
+["Emotional intimacy","Sexualität mit starker emotionaler Verbundenheit"]]],
+
+["🧠 Kopfkino, Fantasie & Sprache",[
+["Talking about fantasies","Offen über Wünsche und Fantasien sprechen"],
+["Fantasy sharing","Sich gegenseitig Fantasien erzählen"],["Dirty talk","Erotische oder provokante Sprache"],
+["Praise","Lob, Bestätigung und positive Worte"],["Reassurance","Verbale Sicherheit und Rückversicherung"],
+["Whispering","Leise, intime Sprache"],["Playful banter","Necken, Humor und spielerische Wortgefechte"],
+["Possessive language","Spielerische Sprache über Zugehörigkeit"],
+["Jealousy fantasy","Fantasien rund um Eifersucht oder Konkurrenz"],
+["Forbidden fantasy","Fantasien rund um das Gefühl von etwas Verbotenem"],
+["Seduction fantasy","Verführung als bewusstes Rollenspiel"],
+["Mystery / anticipation","Nicht genau zu wissen, was als Nächstes passiert"]]],
+
+["🎭 Rollen, Macht & Dynamik",[
+["Dominance","Eine Person übernimmt freiwillig die führende Rolle"],
+["Submission","Freiwilliges Überlassen von Führung"],
+["Switching","Rollen können situationsabhängig wechseln"],
+["Power exchange","Bewusster, abgesprochener Macht-Austausch"],
+["Authority roles","Abgesprochene Rollen mit Autorität"],
+["Commands","Verbale Anweisungen innerhalb vereinbarter Grenzen"],
+["Protocol","Abgesprochene Regeln, Rituale oder Umgangsformen"],
+["Service dynamic","Freude daran, dem Gegenüber bewusst etwas zu ermöglichen"],
+["Brat / playful resistance","Spielerisches Widersetzen innerhalb klarer Grenzen"],
+["Praise dynamic","Führung über Lob und Anerkennung"],
+["Strict dynamic","Eine klar strukturierte, konsequente Dynamik"],
+["Soft dynamic","Führung mit besonders sanfter, fürsorglicher Atmosphäre"],
+["Caretaker dynamic","Fürsorgliche, beschützende Rollenverteilung"],
+["Pet-style roleplay","Verspieltes Rollenbild mit Tier-/Pet-Elementen"]]],
+
+["🎀 Bondage, Kontrolle & Einschränkung",[
+["Light restraint","Leichte, abgesprochene Einschränkung der Bewegungsfreiheit"],
+["Rope aesthetics","Seil als ästhetisches oder spielerisches Element"],
+["Cuffs / restraints","Fesseln oder vergleichbare Hilfsmittel"],
+["Blindfolds","Augen verbinden"],["Sensory deprivation","Bewusstes Reduzieren einzelner Sinneseindrücke"],
+["Predicament play","Bewusst herausfordernde, aber sichere Positionen"],
+["Being guided","Sich bei Bewegungen oder Entscheidungen führen lassen"],
+["Being restrained","Die Erfahrung eingeschränkter Bewegungsfreiheit"],
+["Restraining partner","Das Gegenüber kontrolliert halten innerhalb klarer Grenzen"],
+["Release rituals","Bewusstes Ende einer Einschränkung als eigenes Ritual"],
+["Rules during play","Klare Regeln während einer vereinbarten Dynamik"]]],
+
+["🖤 Sinnesreize & körperliche Intensität",[
+["Sensation play","Unterschiedliche körperliche Sinnesreize erkunden"],
+["Light impact","Sanfte Formen von Impact-Play"],
+["Stronger impact","Intensivere, klar abgesprochene Reize"],
+["Temperature play","Wärme oder Kälte als Sinnesreiz"],
+["Tickling","Kitzeln als spielerischer Reiz"],["Scratching","Kratzen innerhalb klarer Grenzen"],
+["Hair pulling","An den Haaren ziehen innerhalb klarer Grenzen"],
+["Firm touch","Deutlich spürbare, aber kontrollierte Berührungen"],
+["Gentle touch","Sehr leichte und vorsichtige Berührungen"],
+["Sensory contrast","Wechsel zwischen unterschiedlichen Reizarten"],
+["Intensity progression","Intensität langsam und bewusst steigern"]]],
+
+["👗 Kleidung, Körper & Ästhetik",[
+["Lingerie","Reizwäsche und entsprechende Ästhetik"],["Role costumes","Kostüme und Rollen-Outfits"],
+["Gender expression play","Spiel mit femininen, maskulinen oder gemischten Ausdrucksformen"],
+["Androgynous aesthetics","Androgyne Ästhetik"],["Uniform aesthetics","Uniformen als ästhetisches / Rollenspiel-Element"],
+["Shoes / boots","Schuhe oder Stiefel als besonderer Fokus"],
+["Gloves","Handschuhe als ästhetisches Element"],["Stockings","Strümpfe oder Strumpfhosen als ästhetischer Fokus"],
+["Leather","Leder als Material oder Ästhetik"],["Latex / rubber","Latex oder Gummi als Material / Ästhetik"],
+["Make-up / transformation","Styling und bewusste optische Verwandlung"],
+["Body worship","Besondere Wertschätzung bestimmter Körperbereiche"],
+["Muscle / body aesthetics","Körperliche Erscheinung als besonderer Reiz"],
+["Hair aesthetics","Haare, Frisuren oder Haarstyling als besonderer Fokus"]]],
+
+["🎬 Rollenspiel & Szenarien",[
+["Roleplay","Bewusstes Spielen einer vereinbarten Rolle"],["Character roleplay","Fiktive Figuren oder Charaktere"],
+["Scenario roleplay","Abgesprochene Situationen oder Settings"],
+["Authority roles","Rollen mit Macht- oder Autoritätsgefälle"],
+["Fantasy worlds","Fantasiewelten und erfundene Settings"],
+["Cosplay","Kostümierung als Charakter"],["Teacher / student fantasy","Abgesprochenes Rollen-Szenario mit Erwachsenen"],
+["Boss / employee fantasy","Abgesprochenes berufliches Rollen-Szenario mit Erwachsenen"],
+["Stranger roleplay","Bewusstes Spielen einer Fremden-/Kennenlern-Situation"],
+["Seduction scenario","Verführung als Rollenspiel"],["Rescue / protection fantasy","Fantasie rund um Schutz oder Rettung"],
+["Secret identity","Rollenspiel mit bewusst geheim gehaltener Identität"]]],
+
+["👀 Beobachten, Präsentation & Exhibition",[
+["Being watched","Die Vorstellung, beobachtet zu werden"],["Watching partner","Dem Gegenüber bei einer intimen Situation zuschauen"],
+["Performative intimacy","Sich bewusst präsentieren oder performen"],
+["Photography","Gemeinsame intime Fotos im gegenseitigen Einvernehmen"],
+["Private video","Private intime Videos als gemeinsames Projekt"],
+["Mirror play","Spiegel als Teil der Atmosphäre"],
+["Dressing up for partner","Sich bewusst für das Gegenüber stylen"],
+["Receiving compliments","Sich währenddessen bewusst bewundern lassen"],
+["Giving compliments","Das Gegenüber bewusst bewundern und bestätigen"],
+["Private sharing fantasy","Fantasie des einvernehmlichen Teilens mit ausgewählten Erwachsenen"]]],
+
+["👯 Mehrpersonen-Dynamiken & Beziehungsmodelle",[
+["Open relationship","Einvernehmliche sexuelle Offenheit in einer Beziehung"],
+["Polyamory","Mehrere romantische oder emotionale Beziehungen"],
+["Threesome fantasy","Fantasie einer Situation mit drei Erwachsenen"],
+["Group fantasy","Fantasie einer Situation mit mehreren Erwachsenen"],
+["Compersion","Freude an positiven Erfahrungen des Partners"],
+["Partner swapping fantasy","Fantasie eines einvernehmlichen Partnertauschs"],
+["Watching another couple","Fantasie, einem anderen erwachsenen Paar zuzuschauen"],
+["Being desired by others","Die Vorstellung, von mehreren Menschen begehrt zu werden"],
+["Multiple partners in fantasy","Mehrere Personen ausschließlich als Fantasie"],
+["Negotiated non-monogamy","Offenheit für klar abgesprochene nicht-monogame Modelle"]]],
+
+["🧸 Fetisch-, Objekt- & Körperfokus",[
+["Feet","Füße als besonderer Fokus"],["Footwear","Schuhe als besonderer Fokus"],
+["Legs","Beine als besonderer Fokus"],["Stockings","Strümpfe als besonderer Fokus"],
+["Hands","Hände als besonderer Fokus"],["Hair","Haare als besonderer Fokus"],
+["Voice","Stimme als besonderer Reiz"],["Eyes","Augen als besonderer Fokus"],
+["Leather","Leder als besonderer Reiz"],["Latex / rubber","Latex oder Gummi als besonderer Reiz"],
+["Uniforms","Uniformen als besonderer Reiz"],["Glasses","Brillen als besonderer Reiz"],
+["Toys / accessories","Sexspielzeug oder Accessoires als Bestandteil"],
+["Objects / materials","Bestimmte Gegenstände oder Materialien als Reiz"],
+["Scent","Düfte oder Gerüche als besonderer Reiz"],
+["Body worship","Verehrung oder intensive Wertschätzung eines Körperbereichs"]]],
+
+["🌙 Atmosphäre & Setting",[
+["Dark / gothic aesthetics","Dunkle, gothische oder mystische Atmosphäre"],
+["Candlelight","Kerzenlicht und gedämpfte Beleuchtung"],["Music","Musik als Bestandteil der Atmosphäre"],
+["Hotel / special location","Besondere Orte als Stimmungselement"],["Morning intimacy","Intimität am Morgen"],
+["Nighttime intimacy","Intimität in der Nacht"],["Slow / sensual","Langsam und sinnlich"],
+["Playful / humorous","Locker, verspielt und humorvoll"],["Intense / emotional","Emotional intensiv"],
+["Cozy atmosphere","Warm, gemütlich und geborgen"],["Luxury atmosphere","Luxuriöse oder elegante Umgebung"],
+["Spontaneous atmosphere","Spontane, ungeplante Stimmung"],
+["Planned atmosphere","Sorgfältig vorbereitete Umgebung"]]],
+
+["💬 Kommunikation, Vertrauen & Aftercare",[
+["Check-ins","Währenddessen aktiv nachfragen"],["Safe words","Vereinbarte Stop-/Pause-Wörter"],
+["Nonverbal signals","Zusätzliche nonverbale Stop-/Pause-Signale"],
+["Aftercare","Bewusste Fürsorge und Nähe danach"],["Cuddling afterwards","Kuscheln und Nähe danach"],
+["Debrief afterwards","Nachträgliches gemeinsames Besprechen"],
+["Praise afterwards","Bestätigung und positive Worte danach"],
+["Quiet aftercare","Ruhe und wenig Kommunikation danach"],
+["Talking afterwards","Nachträgliches ausführliches Reden"],
+["Hydration / comfort care","Bewusste körperliche Fürsorge danach"],
+["Regular relationship check-ins","Regelmäßig über Bedürfnisse und Grenzen sprechen"],
+["Changing preferences","Offenheit dafür, dass sich Vorlieben verändern"]]],
+
+["🧭 Grenzen, Sicherheit & Vertrauen",[
+["Clear boundaries","Sehr klare Grenzen und Regeln"],["Negotiation beforehand","Vorherige ausführliche Absprache"],
+["Spontaneous exploration","Spontanes Ausprobieren bereits grundsätzlich abgesprochener Dinge"],
+["Hard limits respected","Konsequentes Respektieren von No-Gos"],
+["Safeword system","Verbindliches Stop-/Pause-System"],
+["Regular check-ins","Regelmäßiger Abgleich während einer längeren Dynamik"],
+["Start / stop agreements","Klare Vereinbarungen für Beginn und Ende"],
+["No-surprises rule","Keine überraschenden neuen Elemente ohne Zustimmung"],
+["Gradual exploration","Neue Dinge Schritt für Schritt kennenlernen"],
+["Trust building","Erst Vertrauen aufbauen, dann neue Dinge erkunden"],
+["Privacy","Besonders hoher Wert auf Diskretion und Privatsphäre"],
+["Digital privacy","Sorgsamer Umgang mit Fotos, Videos und Nachrichten"]]],
+
+["✨ Experimentierfreude & Alltag",[
+["Trying new things","Regelmäßig Neues ausprobieren"],["Slow exploration","Neue Dinge langsam kennenlernen"],
+["Spontaneity","Spontane, bereits abgesprochene Ideen"],["Planning","Geplante gemeinsame Intimität"],
+["Frequency","Regelmäßige sexuelle Nähe"],["Variety","Abwechslung statt immer gleicher Routinen"],
+["Routine","Bestimmte vertraute Rituale regelmäßig wiederholen"],
+["Initiating","Selbst gerne den ersten Schritt machen"],["Being initiated with","Es mögen, wenn das Gegenüber den ersten Schritt macht"],
+["Morning preference","Intimität am Morgen bevorzugen"],["Evening preference","Intimität am Abend / nachts bevorzugen"],
+["Long sessions","Viel Zeit für Intimität einplanen"],["Short spontaneous moments","Kurze, spontane intime Momente"]]]
+];
+
+const answers={};
+function build(){
+  for(const [title,items] of groups){
+    const s=document.createElement("div");s.className="section";
+    s.innerHTML=`<h2>${title}</h2><div class="intro">Bewerte dein persönliches Interesse.</div>`;
+    items.forEach(([key,desc])=>{
+      const d=document.createElement("div");d.className="item";
+      d.innerHTML=`<div class="label">${key}</div><div class="desc">${desc}</div><div class="scale"></div>`;
+      const scale=d.querySelector(".scale");
+      emojis.forEach((e,i)=>{
+        const b=document.createElement("button");
+        b.type="button";b.innerHTML=`${e}<span>${i+1}</span>`;
+        b.onclick=()=>{answers[key]=i; [...scale.children].forEach((x,j)=>x.classList.toggle("sel",j===i)); save();};
+        scale.appendChild(b);
+      });
+      s.appendChild(d);
+    });
+    document.getElementById("sections").appendChild(s);
+  }
+  document.querySelectorAll(".scale[data-key]").forEach(scale=>{
+    emojis.forEach((e,i)=>{
+      const b=document.createElement("button");b.type="button";b.innerHTML=`${e}<span>${i+1}</span>`;
+      b.onclick=()=>{answers[scale.dataset.key]=i;[...scale.children].forEach((x,j)=>x.classList.toggle("sel",j===i));save()};
+      scale.appendChild(b);
+    });
+  });
+}
+function save(){
+  localStorage.setItem("kinkCompatibility",JSON.stringify({
+    answers,name:document.getElementById("name").value,
+    customLikes:document.getElementById("customLikes").value,
+    customNo:document.getElementById("customNo").value,
+    customInfo:document.getElementById("customInfo").value
+  }));
+}
+function load(){
+ try{
+  const x=JSON.parse(localStorage.getItem("kinkCompatibility")||"{}");
+  Object.assign(answers,x.answers||{});
+  for(const id of ["name","customLikes","customNo","customInfo"])if(x[id])document.getElementById(id).value=x[id];
+  document.querySelectorAll(".item").forEach(item=>{
+   const label=item.querySelector(".label")?.textContent;
+   if(label && answers[label]!==undefined){
+    [...item.querySelectorAll(".scale button")].forEach((b,i)=>b.classList.toggle("sel",i===answers[label]));
+   }
+  });
+ }catch{}
+}
+function makeResult(){
+ save();
+ const name=document.getElementById("name").value.trim()||"Meine Antworten";
+ const total=groups.reduce((n,g)=>n+g[1].length,0)+4;
+ const answered=Object.keys(answers).length;
+ let out=`♡ SEXUELLES KOMPATIBILITÄTSPROFIL\n${name}\n${answered}/${total} Fragen beantwortet\n\n`;
+ out+=`Emoji-Skala: ☹️ gar nicht · 🙁 eher nein · 🙄 skeptisch · 🤷 unentschieden · 🙂 eher ja · 😍 sehr gern · 🥰 absolut meins\n\n`;
+ const groupsOut={};
+ for(const [title,items] of groups){
+   const vals=items.map(([k])=>[k,answers[k]]).filter(([,v])=>v!==undefined);
+   if(!vals.length)continue;
+   out+=`${title.toUpperCase()}\n`;
+   vals.forEach(([k,v])=>out+=`${emojis[v]} ${k}\n`);
+   out+="\n";
+ }
+ [["Persönlicher Rahmen",["importance","trust","spontaneity","planning"]]].forEach(([t,keys])=>{
+   out+=`${t.toUpperCase()}\n`;
+   const labels={importance:"Sexuelle Nähe",trust:"Vertrauen & emotionale Nähe",spontaneity:"Spontaneität",planning:"Planung & Absprache"};
+   keys.forEach(k=>{if(answers[k]!==undefined)out+=`${emojis[answers[k]]} ${labels[k]}\n`});out+="\n";
+ });
+ const cl=document.getElementById("customLikes").value.trim(), cn=document.getElementById("customNo").value.trim(), ci=document.getElementById("customInfo").value.trim();
+ if(cl)out+=`EIGENE WÜNSCHE / INTERESSEN\n${cl}\n\n`;
+ if(cn)out+=`KLARE GRENZEN / NO-GOS\n${cn}\n\n`;
+ if(ci)out+=`WAS DU ÜBER MICH WISSEN SOLLTEST\n${ci}\n\n`;
+ out+=`♡ Erstellt zum gegenseitigen Abgleich. Antworten sind persönliche Einschätzungen und können sich verändern.`;
+ document.getElementById("result").textContent=out;
+ return out;
+}
+async function copyResult(){
+  const text=makeResult();
+  try {
+    if (navigator.clipboard && window.isSecureContext) {
+      await navigator.clipboard.writeText(text);
+    } else {
+      const ta=document.createElement("textarea");
+      ta.value=text;
+      ta.style.position="fixed";
+      ta.style.opacity="0";
+      document.body.appendChild(ta);
+      ta.focus(); ta.select();
+      const ok=document.execCommand("copy");
+      ta.remove();
+      if(!ok) throw new Error("copy failed");
+    }
+    const btn=document.querySelector(".actions button:nth-child(2)");
+    const old=btn.textContent;
+    btn.textContent="✓ Im Clipboard";
+    setTimeout(()=>btn.textContent=old,1400);
+  } catch(e) {
+    alert("Das Clipboard konnte nicht beschrieben werden. Bitte die Seite in einem Browser mit Clipboard-Berechtigung öffnen.");
+  }
+}
+function resetAll(){
+ if(!confirm("Alle Antworten wirklich löschen?"))return;
+ localStorage.removeItem("kinkCompatibility");location.reload();
+}
+["name","customLikes","customNo","customInfo"].forEach(id=>document.getElementById(id).addEventListener("input",save));
+build();setTimeout(load,0);
+</script>
+</body>
+</html>

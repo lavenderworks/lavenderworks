@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>File Browser</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css" rel="stylesheet">
+    <link rel="stylesheet" href="/ui/css/app.css">
+    <style>
+        .toast {
+            background-color: #333;
+            color: white;
+            padding: 12px 20px;
+            border-radius: 4px;
+            margin-bottom: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+            min-width: 200px;
+            max-width: 90vw;
+            text-align: center;
+            font-size: 14px;
+            pointer-events: auto;
+            animation: slideIn 0.3s ease-out;
+        }
+
+        .toast.success {
+            background-color: #4CAF50;
+        }
+
+        .toast.error {
+            background-color: #f44336;
+        }
+
+        .toast.info {
+            background-color: #2196F3;
+        }
+
+        .toast.warning {
+            background-color: #ff9800;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideOut {
+            from {
+                opacity: 1;
+                transform: translateY(0);
+            }
+            to {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+        }
+
+        .toast.hiding {
+            animation: slideOut 0.3s ease-out forwards;
+        }
+    </style>
+</head>
+<body>
+    <!-- Loading Overlay -->
+    <div id="loading-overlay" class="loading-overlay" style="display: none;">
+        <div class="spinner-border text-primary" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+    </div>
+
+    <!-- Upload Progress Modal -->
+    <div class="modal fade" id="uploadProgressModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">
+                        <i class="bi bi-upload me-2"></i>Uploading File
+                    </h5>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-2">
+                        <span id="upload-filename">file.txt</span>
+                    </div>
+                    <div class="progress" style="height: 25px;">
+                        <div id="upload-progress-bar" class="progress-bar progress-bar-striped progress-bar-animated" 
+                             role="progressbar" style="width: 0%">0%</div>
+                    </div>
+                    <div class="mt-2 text-muted small" id="upload-status">
+                        Preparing upload...
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Download Progress Modal -->
+    <div class="modal fade" id="downloadProgressModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">
+                        <i class="bi bi-download me-2"></i>Downloading File
+                    </h5>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-2">
+                        <span id="download-filename">file.zip</span>
+                    </div>
+                    <div class="progress" style="height: 25px;">
+                        <div id="download-progress-bar" class="progress-bar progress-bar-striped progress-bar-animated" 
+                             role="progressbar" style="width: 0%">0%</div>
+                    </div>
+                    <div class="mt-2 text-muted small" id="download-status">
+                        Preparing download...
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="app">
+        <!-- Navigation Bar -->
+        <nav class="navbar navbar-expand-lg navbar-dark bg-primary" id="main-navbar">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="/">
+                    <i class="bi bi-folder2-open me-2"></i>File Browser
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav me-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" href="/" onclick="handleNav(event, '/')">
+                                <i class="bi bi-house-door me-1"></i>Home
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/files" onclick="handleNav(event, '/files')">
+                                <i class="bi bi-folder me-1"></i>Files
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        
+        <!-- Main Content -->
+        <main class="container-fluid py-4" id="content">
+            <!-- Inline message / progress area (appears above items list) -->
+            <div id="inline-messages-container" style="width:100%">
+                <div id="inline-message-box" class="alert alert-info d-flex align-items-center" role="alert" style="display:none; white-space: normal; overflow-x: hidden; text-overflow: ellipsis; word-break: break-word;">
+                    <div id="inline-message-text" class="flex-grow-1" style="min-width:0;">&nbsp;</div>
+                    <button id="inline-message-close" type="button" class="btn-close ms-3" aria-label="Close" title="Close" style="flex:0 0 auto;"></button>
+                </div>
+            </div>
+            <div class="text-center py-5">
+                <div class="spinner-border text-primary" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+                <p class="mt-3 text-muted">Loading, please wait...</p>
+            </div>
+        </main>
+        
+        <!-- Footer -->
+        <footer class="footer mt-auto py-4 bg-light">
+            <div class="container text-center">
+                <div class="row">
+                    <div class="col-12">
+                        <small class="text-muted">
+                            <a href="mailto:hi@olabs.app?subject=App%20Feedback%20-%20File%20Browser" target="_blank" class="text-decoration-none">
+                                <i class="bi bi-envelope me-1"></i>Contact Us
+                            </a> |
+                            <a href="https://www.buymeacoffee.com/olabs" target="_blank" class="text-decoration-none">
+                                <i class="bi bi-cup-hot me-1"></i>Buy me a Coffee
+                            </a> |
+                            <a href="https://play.google.com/store/apps/details?id=com.orienlabs.filebrowser.wear&showAllReviews=true" target="_blank" class="text-decoration-none">
+                                <i class="bi bi-star-fill me-1 text-warning"></i>
+                                <i class="bi bi-star-fill me-1 text-warning"></i>
+                                <i class="bi bi-star-fill me-1 text-warning"></i>
+                                <i class="bi bi-star-fill me-1 text-warning"></i>
+                                <i class="bi bi-star-fill me-1 text-warning"></i>
+                            </a>
+                        </small>
+                    </div>
+                    <div class="col-12 mb-3">
+                        <a href="https://olabs.app/" target="_blank" class="text-decoration-none">
+                            <i class="bi bi-c-circle me-1"></i>Orienlabs LLC</a>
+                    </div>
+                </div>
+            </div>
+        </footer>
+        
+        <!-- Toast Container -->
+        <div class="toast-container position-fixed top-0 end-0 p-3" id="toast-container"></div>
+    </div>
+    
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <script src="/ui/js/file_api_client.js"></script>
+    <script src="/ui/js/router.js"></script>
+    <script>
+    // Hide header by default (can be overridden with showHeader=true parameter)
+    function checkHideHeader() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const showHeader = urlParams.get('showHeader') === 'true';
+        const navbar = document.getElementById('main-navbar');
+        
+        // Hide header by default, unless showHeader=true is explicitly set
+        if (!showHeader) {
+            if (navbar) {
+                navbar.style.display = 'none';
+            }
+        }
+    }
+    
+    // Navigation handler
+    function handleNav(event, path) {
+        event.preventDefault();
+        if (window.router && typeof window.router.navigate === 'function') {
+            window.router.navigate(path);
+        } else {
+            window.location.href = path;
+        }
+    }
+    
+    // Update active nav link
+    function updateActiveNav(path) {
+        document.querySelectorAll('.navbar-nav .nav-link').forEach(a => {
+            a.classList.remove('active');
+            const href = a.getAttribute('href');
+            if (href === path || (path === '/' && href === '/')) {
+                a.classList.add('active');
+            }
+        });
+    }
+    
+    // Files navigation helper
+    function handleFilesNav(path) {
+        if (window.router) {
+            const urlParams = new URLSearchParams(window.location.search);
+            const showHeader = urlParams.get('showHeader') === 'true';
+            const tab = urlParams.get('tab') || 'files';
+            window.router.renderFilesWithPath(path, tab);
+            const queryParam = showHeader ? '?showHeader=true&tab=' + tab + '&path=' : '?tab=' + tab + '&path=';
+            window.history.pushState({path: '/files', filePath: path}, '', `/files${queryParam}${encodeURIComponent(path)}`);
+        }
+    }
+    
+    // Show loading overlay
+    function showLoadingOverlay() {
+        const overlay = document.getElementById('loading-overlay');
+        if (overlay) overlay.style.display = 'flex';
+    }
+    
+    // Hide loading overlay
+    function hideLoadingOverlay() {
+        const overlay = document.getElementById('loading-overlay');
+        if (overlay) overlay.style.display = 'none';
+    }
+
+    // Global helper to escape HTML for insertion into single-line elements
+    function escapeHtml(text) {
+        const div = document.createElement('div');
+        div.textContent = text;
+        return div.innerHTML;
+    }
+    
+    // Inline upload progress (replaces modal)
+    function getOrCreateInlineBox() {
+        let container = document.getElementById('inline-messages-container');
+        let content = document.getElementById('content');
+        if (!container) {
+            // Try to insert inside content as first child
+            if (content) {
+                container = document.createElement('div');
+                container.id = 'inline-messages-container';
+                content.insertBefore(container, content.firstChild);
+            } else {
+                // fallback to body
+                container = document.createElement('div');
+                container.id = 'inline-messages-container';
+                document.body.insertBefore(container, document.body.firstChild);
+            }
+        }
+
+        let box = document.getElementById('inline-message-box');
+        if (!box) {
+            box = document.createElement('div');
+            box.id = 'inline-message-box';
+            box.className = 'alert alert-info d-flex align-items-center';
+            box.setAttribute('role', 'alert');
+            box.style.display = 'none';
+            box.style.whiteSpace = 'normal';
+            box.style.overflowX = 'hidden';
+            box.style.textOverflow = 'ellipsis';
+            box.style.wordBreak = 'break-word';
+
+            const text = document.createElement('div');
+            text.id = 'inline-message-text';
+            text.className = 'flex-grow-1';
+            text.style.minWidth = '0';
+            text.innerHTML = '&nbsp;';
+
+            const btn = document.createElement('button');
+            btn.id = 'inline-message-close';
+            btn.type = 'button';
+            btn.className = 'btn-close ms-3';
+            btn.setAttribute('aria-label', 'Close');
+            btn.title = 'Close';
+            btn.style.flex = '0 0 auto';
+
+            box.appendChild(text);
+            box.appendChild(btn);
+            container.appendChild(box);
+        }
+
+        // Ensure close handler exists (always attach to avoid stale handlers)
+        const closeBtn = document.getElementById('inline-message-close');
+        if (closeBtn) {
+            closeBtn.onclick = () => { clearInlineBox(); };
+            closeBtn.style.cursor = 'pointer';
+        }
+
+        return { box: box, text: document.getElementById('inline-message-text') };
+    }
+
+    function showUploadProgress(filename) {
+        const elems = getOrCreateInlineBox();
+        const box = elems.box;
+        const text = elems.text;
+        // Build progress UI inside the inline box
+        text.innerHTML = `<strong>${escapeHtml(filename)}</strong> <div style="height:6px;margin-top:6px;">` +
+            `<div id="inline-upload-progress" class="progress" style="height:6px; background:transparent;">` +
+            `<div id="inline-upload-progress-bar" class="progress-bar" role="progressbar" style="width:0%">&nbsp;</div>` +
+            `</div></div>`;
+        box.className = 'alert alert-info d-flex align-items-center';
+        box.style.display = 'flex';
+    }
+
+    function updateUploadProgress(percentage, status) {
+        const bar = document.getElementById('inline-upload-progress-bar');
+        const statusText = document.getElementById('inline-message-text');
+        if (bar && typeof percentage === 'number' && percentage >= 0) {
+            const pct = Math.min(100, Math.max(0, percentage));
+            bar.style.width = pct + '%';
+        }
+        if (status && statusText) {
+            try {
+                const existing = statusText.querySelector('small');
+                if (existing) existing.textContent = ' — ' + status;
+                else statusText.insertAdjacentHTML('beforeend', `<small style="margin-left:8px;"> — ${escapeHtml(status)}</small>`);
+            } catch (e) {
+                // ignore DOM errors
+            }
+        }
+    }
+
+    function hideUploadProgress() {
+        clearInlineBox();
+    }
+
+    // Inline download progress (replaces modal)
+    function showDownloadProgress(filename) {
+        const elems = getOrCreateInlineBox();
+        const box = elems.box;
+        const text = elems.text;
+        text.innerHTML = `<strong>${escapeHtml(filename)}</strong> <div style="height:6px;margin-top:6px;">` +
+            `<div id="inline-download-progress" class="progress" style="height:6px; background:transparent;">` +
+            `<div id="inline-download-progress-bar" class="progress-bar" role="progressbar" style="width:0%">&nbsp;</div>` +
+            `</div></div>`;
+        box.className = 'alert alert-info d-flex align-items-center';
+        box.style.display = 'flex';
+    }
+
+    function updateDownloadProgress(percentage, status) {
+        const bar = document.getElementById('inline-download-progress-bar');
+        const statusText = document.getElementById('inline-message-text');
+        if (bar && typeof percentage === 'number' && percentage >= 0) {
+            const pct = Math.min(100, Math.max(0, percentage));
+            bar.style.width = pct + '%';
+        }
+        if (status && statusText) {
+            try {
+                const existing = statusText.querySelector('small');
+                if (existing) existing.textContent = ' — ' + status;
+                else statusText.insertAdjacentHTML('beforeend', `<small style="margin-left:8px;"> — ${escapeHtml(status)}</small>`);
+            } catch (e) {
+                // ignore
+            }
+        }
+    }
+
+    function hideDownloadProgress() {
+        clearInlineBox();
+    }
+    
+    // Toast message functions with Bootstrap toasts
+    function showToast(message, type = 'info', duration = 6000) {
+        // If message is long or it's an error/success, show inline message instead for better UX
+            let usedInline = false;
+            try {
+                // Show inline only for errors or very long messages; keep success as toast to avoid empty-success UI issues
+                if ((message && message.length > 120) || type === 'error') {
+                    showInlineMessage(message, type, duration || 8000);
+                    usedInline = true;
+                }
+            } catch (e) {
+                // ignore
+            }
+            if (usedInline) return; // prevent duplicate toast when inline message used
+        const container = document.getElementById('toast-container');
+        if (!container) return;
+        
+        const toastId = 'toast-' + Date.now();
+        const iconMap = {
+            'success': 'bi-check-circle-fill',
+            'error': 'bi-exclamation-circle-fill',
+            'warning': 'bi-exclamation-triangle-fill',
+            'info': 'bi-info-circle-fill'
+        };
+        const bgMap = {
+            'success': 'bg-success',
+            'error': 'bg-danger',
+            'warning': 'bg-warning',
+            'info': 'bg-primary'
+        };
+        
+        const toastHtml = `
+            <div id="${toastId}" class="toast align-items-center text-white ${bgMap[type] || bgMap.info} border-0" role="alert" aria-live="assertive" aria-atomic="true">
+                <div class="d-flex">
+                    <div class="toast-body">
+                        <i class="bi ${iconMap[type] || iconMap.info} me-2"></i>${message}
+                    </div>
+                    <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
+                </div>
+            </div>
+        `;
+        
+        container.insertAdjacentHTML('beforeend', toastHtml);
+        const toastElement = document.getElementById(toastId);
+        const toast = new bootstrap.Toast(toastElement, { delay: duration });
+        toast.show();
+        
+        // Remove from DOM after hidden
+        toastElement.addEventListener('hidden.bs.toast', () => {
+            toastElement.remove();
+        });
+    }
+
+    // Show message inline in the dedicated area (above items list)
+    function showInlineMessage(message, type = 'info', autoHide = 8000) {
+        const elems = getOrCreateInlineBox();
+        const box = elems.box;
+        const text = elems.text;
+        const typeMap = { 'success': 'alert-success', 'error': 'alert-danger', 'warning': 'alert-warning', 'info': 'alert-info' };
+        box.className = 'alert ' + (typeMap[type] || typeMap.info) + ' d-flex align-items-center';
+        try { text.textContent = message || ''; } catch (e) { /* ignore */ }
+        // Ensure parent container is visible and box is attached
+        const container = document.getElementById('inline-messages-container');
+        if (container) container.style.display = 'block';
+        box.style.display = 'flex';
+        if (autoHide && autoHide > 0) {
+            setTimeout(() => { try { box.style.display = 'none'; } catch (e) {} }, autoHide);
+        }
+    }
+
+    // Remove inline box completely so no residual empty alert remains
+    function clearInlineBox() {
+        const container = document.getElementById('inline-messages-container');
+        if (!container) return;
+        const box = document.getElementById('inline-message-box');
+        const text = document.getElementById('inline-message-text');
+        if (box) {
+            // remove known progress bars inside
+            const up = box.querySelector('#inline-upload-progress'); if (up) up.remove();
+            const down = box.querySelector('#inline-download-progress'); if (down) down.remove();
+            try { box.style.display = 'none'; } catch (e) {}
+        }
+        if (text) try { text.innerHTML = '&nbsp;'; } catch (e) {}
+        try { container.style.display = 'none'; } catch (e) {}
+    }
+    
+    // Make functions globally available
+    window.showToast = showToast;
+    window.showLoadingOverlay = showLoadingOverlay;
+    window.hideLoadingOverlay = hideLoadingOverlay;
+    window.showUploadProgress = showUploadProgress;
+    window.updateUploadProgress = updateUploadProgress;
+    window.hideUploadProgress = hideUploadProgress;
+    window.showDownloadProgress = showDownloadProgress;
+    window.updateDownloadProgress = updateDownloadProgress;
+    window.hideDownloadProgress = hideDownloadProgress;
+    
+    // Check hideHeader on page load
+    checkHideHeader();
+    
+    // Initialize router when loaded
+    window.addEventListener('DOMContentLoaded', function() {
+        checkHideHeader();
+        if (typeof Router !== 'undefined') {
+            window.router = new Router();
+            window.router.init();
+        }
+    });
+    
+    // Also try to initialize immediately if scripts are already loaded
+    if (typeof Router !== 'undefined') {
+        window.router = new Router();
+        window.router.init();
+    }
+    </script>
+</body>
+</html>
+    
+

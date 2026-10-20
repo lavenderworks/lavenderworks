@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>WLAN-Dateiübertragung</title>
+<style>
+:root{color-scheme:light;--pink:#d85c9b;--ink:#292531;--muted:#77717e;--line:#e8e2eb;--bg:#faf7fb;--card:#fff}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.45 system-ui,-apple-system,Segoe UI,sans-serif;padding:18px 14px 36px}
+main{max-width:650px;margin:auto}.brand{font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:var(--pink);font-weight:800}h1{font-size:clamp(25px,6vw,34px);line-height:1.1;margin:8px 0}p{color:var(--muted);margin:8px 0 18px}.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:17px;margin:14px 0;box-shadow:0 5px 18px #30203b08}label{display:block;font-weight:700;font-size:14px;margin:0 0 7px}input,select{width:100%;padding:12px;border:1px solid #d9d1df;border-radius:10px;background:white;color:var(--ink);font:inherit;margin-bottom:14px}button{border:0;border-radius:12px;padding:13px 15px;font:700 15px system-ui;cursor:pointer}button:disabled{opacity:.45;cursor:not-allowed}.primary{background:var(--pink);color:white;width:100%}.secondary{background:#f5eaf1;color:#803c67;width:100%;margin-top:8px}.pickers{display:grid;grid-template-columns:1fr 1fr;gap:10px}.pick{background:#f8f1f7;border:1px dashed #d7a6c3;color:#803c67;min-height:85px}.pick strong{display:block;font-size:15px}.pick small{display:block;font-weight:500;margin-top:4px}.hint{font-size:13px;color:var(--muted)}.status{font-size:14px;margin-top:12px;white-space:pre-wrap;overflow-wrap:anywhere}.bar{height:9px;background:#eee8f0;border-radius:9px;overflow:hidden;margin:10px 0}.bar>div{height:100%;width:0;background:var(--pink);transition:width .15s}.filelist{font-size:13px;max-height:220px;overflow:auto;padding-left:20px}.good{color:#23764a}.bad{color:#b42332}.warn{background:#fff6e8;border-color:#f0d6a8}.row{display:flex;justify-content:space-between;gap:12px;font-size:13px;color:var(--muted)}
+</style>
+</head>
+<body><main>
+<div class="brand">LavenderWorks · локальная сеть</div>
+<h1>WLAN-Dateiübertragung</h1>
+<p>Wähle mehrere Dateien oder einen ganzen Ordner und lade sie nacheinander auf dein Android-Gerät hoch.</p>
+<section class="card">
+<label for="server">Adresse des Empfänger-Geräts</label>
+<input id="server" type="url" value="http://192.168.97.162:2847" autocomplete="url" spellcheck="false">
+<label for="container">Zielbereich</label>
+<select id="container"><option value="userData">Dateien (userData)</option><option value="IMAGE">Bilder (IMAGE)</option><option value="VIDEO">Videos (VIDEO)</option><option value="AUDIO">Audio (AUDIO)</option><option value="APPS">Apps (APPS)</option></select>
+<div class="hint">Die Adresse muss vom zweiten Gerät aus erreichbar sein. Beide Geräte müssen im selben WLAN sein.</div>
+</section>
+<section class="card">
+<div class="pickers">
+<button class="pick" id="chooseFiles"><strong>＋ Dateien wählen</strong><small>Mehrere Dateien</small></button>
+<button class="pick" id="chooseFolder"><strong>▣ Ordner wählen</strong><small>Ordnerinhalt auswählen</small></button>
+</div>
+<input id="files" type="file" multiple hidden>
+<input id="folder" type="file" webkitdirectory multiple hidden>
+<div id="selection" class="status">Noch keine Dateien ausgewählt.</div>
+<ol id="filelist" class="filelist" hidden></ol>
+<button class="primary" id="upload" disabled>Ausgewählte Dateien übertragen</button>
+<button class="secondary" id="clear" disabled>Auswahl leeren</button>
+<div class="bar"><div id="progress"></div></div>
+<div class="row"><span id="count">0 von 0 Dateien</span><span id="percent">0 %</span></div>
+<div id="result" class="status" role="status" aria-live="polite"></div>
+</section>
+<section class="card warn"><strong>Hinweis zu Ordnern</strong><p class="hint" style="margin-bottom:0">Der vorhandene Server-Endpunkt lädt einzelne Dateien hoch. Diese Seite überträgt deshalb jede Datei einzeln. Ob Unterordner und gleiche Dateinamen getrennt erhalten bleiben, unterstützt der Server derzeit nicht nachweislich; wähle daher möglichst Dateien mit eindeutigen Namen.</p></section>
+</main>
+<script>
+const $=id=>document.getElementById(id);let selected=[];let running=false;
+$('chooseFiles').onclick=()=>$('files').click();$('chooseFolder').onclick=()=>$('folder').click();
+$('files').onchange=e=>setFiles(e.target.files);$('folder').onchange=e=>setFiles(e.target.files);
+function setFiles(list){selected=Array.from(list||[]);renderSelection();}
+function renderSelection(){ $('selection').textContent=selected.length?`${selected.length} Datei(en) ausgewählt · ${(selected.reduce((n,f)=>n+f.size,0)/1048576).toFixed(2)} MB gesamt`:'Noch keine Dateien ausgewählt.';$('upload').disabled=!selected.length||running;$('clear').disabled=!selected.length||running;$('filelist').hidden=!selected.length;$('filelist').innerHTML='';selected.slice(0,200).forEach(f=>{const li=document.createElement('li');li.textContent=(f.webkitRelativePath||f.name)+` (${(f.size/1048576).toFixed(2)} MB)`;$('filelist').appendChild(li)});if(selected.length>200){const li=document.createElement('li');li.textContent=`… und ${selected.length-200} weitere Dateien`;$('filelist').appendChild(li)}$('count').textContent=`0 von ${selected.length} Dateien`;$('percent').textContent='0 %';$('progress').style.width='0%';$('result').textContent='';}
+$('clear').onclick=()=>{selected=[];$('files').value='';$('folder').value='';renderSelection()};
+function normalizeBase(){let s=$('server').value.trim().replace(/\/+$/,'');if(!/^https?:\/\//i.test(s))s='http://'+s;return s}
+function uploadOne(base,container,file,onProgress){return new Promise((resolve,reject)=>{const url=base+'/api/files/upload?'+new URLSearchParams({container});const xhr=new XMLHttpRequest();xhr.open('POST',url,true);xhr.upload.onprogress=e=>{if(e.lengthComputable)onProgress(e.loaded/e.total)};xhr.onload=()=>{let data={};try{data=xhr.responseText?JSON.parse(xhr.responseText):{}}catch{reject(new Error(`Antwort war kein JSON (HTTP ${xhr.status})`));return}if(xhr.status>=200&&xhr.status<300&&data.success!==false)resolve(data);else reject(new Error(data?.error?.message||data?.detail||`HTTP ${xhr.status}`))};xhr.onerror=()=>reject(new Error('Netzwerk-/CORS-Fehler. Prüfe WLAN, Serveradresse und ob der Server Zugriffe von dieser HTML-Seite erlaubt.'));xhr.onabort=()=>reject(new Error('Upload abgebrochen'));const form=new FormData();form.append('file',file,file.name);form.append('filename',file.name);xhr.send(form)})}
+$('upload').onclick=async()=>{if(running||!selected.length)return;let base;try{base=normalizeBase();const u=new URL(base);if(!['http:','https:'].includes(u.protocol))throw 0}catch{$('result').textContent='Bitte eine gültige Serveradresse eingeben.';return}
+running=true;$('upload').disabled=true;$('clear').disabled=true;$('result').textContent='Übertragung läuft …';let done=0,failed=[];const total=selected.length;for(let i=0;i<total;i++){const f=selected[i];$('count').textContent=`${i} von ${total} Dateien`;let current=0;try{await uploadOne(base,$('container').value,f,p=>{current=p;$('progress').style.width=((done+p)/total*100)+'%';$('percent').textContent=Math.floor((done+p)/total*100)+' %'});done++;}catch(err){failed.push(`${f.webkitRelativePath||f.name}: ${err.message}`);done++;} $('progress').style.width=(done/total*100)+'%';$('percent').textContent=Math.floor(done/total*100)+' %';$('count').textContent=`${done} von ${total} Dateien`;}
+running=false;$('upload').disabled=!selected.length;$('clear').disabled=!selected.length;$('result').className='status '+(failed.length?'bad':'good');$('result').textContent=`Fertig: ${total-failed.length} erfolgreich, ${failed.length} fehlgeschlagen.`+(failed.length?'\n\nFehler:\n'+failed.join('\n'):'');};
+</script></body></html>
